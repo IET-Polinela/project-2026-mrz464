@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Tambah Laporan</title>
+    <title>Edit Laporan - Smart City</title>
     <style>
         body {
             font-family: sans-serif;
@@ -14,14 +14,16 @@
 </head>
 
 <body>
-    <h1>Buat Laporan Baru</h1>
+    <h1>Edit Laporan: {{ object.title }}</h1>
+    <hr>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" style="background: #28a745; color: white; padding: 10px;">Simpan</button>
+        <button type="submit" style="background: #ffc107; padding: 10px; border: none; cursor: pointer;">Update
+            Laporan</button>
     </form>
     <br>
-    <a href="{% url 'home' %}">Batal</a>
+    <a href="{% url 'report_list' %}">Batal dan Kembali</a>
 </body>
 
 </html>

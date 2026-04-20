@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Laporan - Pasir Sakti</title>
+    <style>
+        :root {
+            --primary: #2d5a27;
+            --bg: #f8f9fa;
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: var(--bg);
+            padding: 40px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+
+        .info-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #666;
+            display: block;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 5px 0;
+            color: #333;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #e1f5fe;
+            color: #01579b;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>Detail Laporan Warga</h1>
+
+        <div class="info-group">
+            <label>Judul Masalah</label>
+            <p>{{ report.title }}</p>
+        </div>
+
+        <div class="info-group">
+            <label>Lokasi Kejadian</label>
+            <p>📍 {{ report.location }}</p>
+        </div>
+
+        <div class="info-group">
+            <label>Deskripsi Lengkap</label>
+            <p>{{ report.description }}</p>
+        </div>
+
+        <div class="info-group">
+            <label>Status Saat Ini</label>
+            <span class="status-badge">{{ report.get_status_display }}</span>
+        </div>
+
+        <hr>
+        <a href="{% url 'report_list' %}" class="btn-back">← Kembali ke Dashboard</a>
+    </div>
+</body>
+
+</html>

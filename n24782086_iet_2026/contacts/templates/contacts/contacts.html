@@ -3,103 +3,183 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Contact Me | Rezaldi Zazky</title>
+    <title>Kontak Layanan | Pasir Sakti Digital</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px;
-            background-color: #fdfcfb;
+        /* Skema Warna Kalcer Pasir Sakti - Konsisten dengan Home & About */
+        :root {
+            --primary: #2d5a27;
+            /* Hijau Tua */
+            --secondary: #f1c40f;
+            /* Kuning Emas */
+            --accent: #e67e22;
+            /* Oranye */
+            --bg: #f8f9fa;
         }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            max-width: 1000px;
+            margin: auto;
+            padding: 30px;
+            color: #333;
+        }
+
+        /* Navigasi */
+        nav {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: bold;
+            margin: 0 15px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        /* Card Kontak */
         .contact-card {
             background: white;
-            padding: 30px;
+            padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            border-left: 8px solid #e67e22;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-top: 8px solid var(--primary);
+            /* Menggunakan Hijau sesuai Home */
         }
 
         h1 {
-            color: #d35400;
-            margin-top: 0;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* Grid Kontak Modern */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
         .contact-method {
-            margin: 20px 0;
-            padding: 15px;
-            background: #fff5eb;
-            border-radius: 8px;
-            border: 1px solid #ffe0bd;
+            padding: 20px;
+            background: #f1f8f1;
+            /* Hijau sangat muda agar selaras */
+            border-radius: 12px;
+            border: 1px solid #e0ede0;
+            transition: 0.3s;
+        }
+
+        .contact-method:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
         }
 
         .label {
             font-weight: bold;
-            color: #e67e22;
+            color: var(--primary);
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
         }
 
         .value {
             font-size: 1.1em;
-            color: #2c3e50;
+            color: #2d3436;
+            font-weight: 600;
         }
 
+        /* Tombol Sesuai Warna Home */
         .btn-back {
-            display: inline-block;
-            margin-top: 25px;
+            display: block;
+            width: fit-content;
+            margin: 40px auto 0;
             text-decoration: none;
-            color: white;
-            background: #e67e22;
-            padding: 10px 20px;
-            border-radius: 5px;
+            color: #000;
+            background: var(--secondary);
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: bold;
             transition: 0.3s;
         }
 
         .btn-back:hover {
-            background: #d35400;
+            background: #d4ac0d;
             transform: scale(1.05);
         }
 
         .footer-note {
-            margin-top: 30px;
+            margin-top: 40px;
             font-size: 0.85em;
             color: #7f8c8d;
+            text-align: center;
             border-top: 1px solid #eee;
-            padding-top: 15px;
+            padding-top: 20px;
         }
     </style>
 </head>
 
 <body>
+    <nav>
+        <a href="{% url 'report_list' %}">BERANDA</a>
+        <a href="/about/">TENTANG APLIKASI</a>
+        <a href="/contacts/">KONTAK</a>
+    </nav>
+
     <div class="contact-card">
-        <h1>Hubungi Saya</h1>
-        <p>Silakan hubungi saya melalui saluran komunikasi di bawah ini untuk keperluan akademik.</p>
+        <h1>Pusat Bantuan Desa</h1>
+        <p class="subtitle">Saluran resmi komunikasi warga Desa Pasir Sakti, Lampung Timur.</p>
 
-        <div class="contact-method">
-            <span class="label">WhatsApp:</span>
-            <span class="value">083130981422</span>
-        </div>
+        <div class="contact-grid">
+            <div class="contact-method">
+                <span class="label">📞 WhatsApp Aduan:</span>
+                <span class="value">0831-3098-1422</span>
+            </div>
 
-        <div class="contact-method">
-            <span class="label">Email Mahasiswa:</span>
-            <span class="value">rezaldizazky06@student.polinela.ac.id</span>
-        </div>
+            <div class="contact-method">
+                <span class="label">✉️ Email Pelayanan:</span>
+                <span class="value">layanan@pasirsakti.desa.id</span>
+            </div>
 
-        <div class="contact-method">
-            <span class="label">Lokasi:</span>
-            <span class="value">Bandar Lampung, Indonesia</span>
+            <div class="contact-method">
+                <span class="label">🏢 Lokasi Kantor:</span>
+                <span class="value">Kec. Pasir Sakti, Lampung Timur</span>
+            </div>
+
+            <div class="contact-method">
+                <span class="label">⏰ Waktu Pelayanan:</span>
+                <span class="value">08:00 - 15:30 WIB</span>
+            </div>
         </div>
 
         <div class="footer-note">
-            Ditampilkan melalui aplikasi <strong>contacts</strong> dalam proyek Django <code>n24782086_iet_2026</code>.
+            Aplikasi ini dikembangkan untuk mendukung transparansi publik di lingkungan Kabupaten Lampung Timur.
         </div>
 
-        <a href="/" class="btn-back">← Kembali ke Beranda</a>
+        <a href="{% url 'report_list' %}" class="btn-back">← Kembali ke Dashboard</a>
     </div>
+
+    <footer style="margin-top: 40px; text-align: center; color: #7f8c8d; font-size: 12px;">
+        <p>&copy; 2026 Pemerintah Desa Pasir Sakti | Dikembangkan oleh Rezaldi Zazky - Polinela</p>
+    </footer>
 </body>
 
 </html>
