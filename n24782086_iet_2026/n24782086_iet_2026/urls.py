@@ -1,10 +1,24 @@
 from django.contrib import admin
-from django.urls import path, include # Import include sangat penting di sini [cite: 23]
+from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from usermanagement_24782086 import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Menghubungkan URL project dengan URL masing-masing app [cite: 8, 25]
-    path('', include('main_app.urls')),      # Halaman utama [cite: 25]
-    path('about/', include('about.urls')),   # Halaman about [cite: 38]
-    path('contacts/', include('contacts.urls')), # Halaman contacts [cite: 38]
+    
+    # Rute aplikasi utama
+    path('', include('main_app.urls')),
+    path('about/', include('about.urls')),
+    path('contacts/', include('contacts.urls')),
+    
+    # --- Rute Autentikasi (Lab Session 6) ---
+    
+    # 1. Login: Menggunakan view bawaan Django
+    path("login/", auth_views.LoginView.as_view(template_name="usermanagement_24782086/login.html"), name="login"),
+    
+    # 2. Logout: Menggunakan view bawaan Django
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    
+    # 3. Register: Menggunakan fungsi view kustom yang kita buat di views.py
+    path("register/", user_views.register_view, name="register"),
 ]

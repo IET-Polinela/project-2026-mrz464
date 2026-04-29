@@ -1,216 +1,106 @@
-<!DOCTYPE html>
-<html lang="id">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Pasir Sakti Smart City Portal</title>
-    <style>
-        /* Skema Warna Smart City: Hijau Deep & Kuning Emas */
-        :root {
-            --primary: #2d5a27;
-            --secondary: #f1c40f;
-            --accent: #e67e22;
-            --bg: #f8f9fa;
-        }
+{% block title %}Dashboard - Pasir Sakti Smart City{% endblock %}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            max-width: 1000px;
-            margin: auto;
-            padding: 30px;
-            color: #333;
-        }
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'report_list' %}" class="text-decoration-none text-smartcity"><i
+                    class="bi bi-house-door"></i> Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Dashboard Laporan</li>
+    </ol>
+</nav>
 
-        nav {
-            background: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            margin-bottom: 30px;
-            text-align: center;
-        }
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="text-smartcity fw-bold mb-0">Daftar Laporan Infrastruktur</h3>
+    <a href="{% url 'report_add' %}" class="btn btn-smartcity shadow-sm">
+        <i class="bi bi-plus-circle"></i> Tambah Laporan
+    </a>
+</div>
 
-        nav a {
-            text-decoration: none;
-            color: var(--primary);
-            font-weight: bold;
-            margin: 0 15px;
-            transition: 0.3s;
-        }
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Judul Laporan</th>
+                        <th>Lokasi Spesifik</th>
+                        <th>Status</th>
+                        <th class="text-center">Aksi Workflow</th>
+                        <th class="text-center pe-4">Kelola Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in reports %}
+                    <tr>
+                        <td class="ps-4 fw-semibold">
+                            <a href="{% url 'report_detail' report.pk %}" class="text-decoration-none text-dark">
+                                {{ report.title }}
+                            </a>
+                        </td>
+                        <td class="text-muted"><i class="bi bi-geo-alt"></i> {{ report.location }}</td>
 
-        nav a:hover {
-            color: var(--accent);
-        }
+                        <td>
+                            {% if report.status == 'REPORTED' %}
+                            <span class="badge bg-secondary">Reported</span>
+                            {% elif report.status == 'VERIFIED' %}
+                            <span class="badge bg-primary">Verified</span>
+                            {% elif report.status == 'IN_PROGRESS' %}
+                            <span class="badge bg-warning text-dark">In Progress</span>
+                            {% elif report.status == 'RESOLVED' %}
+                            <span class="badge bg-success">Resolved</span>
+                            {% endif %}
+                        </td>
 
-        .header-section {
-            text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(rgba(45, 90, 39, 0.8), rgba(45, 90, 39, 0.9)),
-                url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            border-radius: 15px;
-            margin-bottom: 40px;
-        }
+                        <td class="text-center">
+                            <form action="{% url 'report_status' report.pk %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                {% if report.status == 'REPORTED' %}
+                                <input type="hidden" name="status" value="VERIFIED">
+                                <button type="submit" class="btn btn-sm btn-primary"
+                                    onclick="showLoading(this)">Verifikasi</button>
+                                {% elif report.status == 'VERIFIED' %}
+                                <input type="hidden" name="status" value="IN_PROGRESS">
+                                <button type="submit" class="btn btn-sm btn-warning text-dark"
+                                    onclick="showLoading(this)">Proses</button>
+                                {% elif report.status == 'IN_PROGRESS' %}
+                                <input type="hidden" name="status" value="RESOLVED">
+                                <button type="submit" class="btn btn-sm btn-success"
+                                    onclick="showLoading(this)">Selesaikan</button>
+                                {% else %}
+                                <span class="text-success fw-bold"><i class="bi bi-check2-all"></i> Tuntas</span>
+                                {% endif %}
+                            </form>
+                        </td>
 
-        .header-section h1 {
-            margin: 0;
-            font-size: 2.2em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+                        <td class="text-center pe-4">
+                            <a href="{% url 'report_detail' report.pk %}" class="btn btn-sm btn-outline-info"
+                                title="Detail"><i class="bi bi-eye"></i></a>
 
-        .header-section p {
-            font-size: 1.1em;
-            opacity: 0.9;
-            margin-top: 10px;
-        }
+                            <a href="{% url 'report_edit' report.pk %}" class="btn btn-sm btn-outline-secondary"
+                                title="Edit"><i class="bi bi-pencil"></i></a>
+                            <a href="{% url 'report_delete' report.pk %}" class="btn btn-sm btn-outline-danger"
+                                title="Hapus"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
 
-        table {
-            width: 100%;
-            background: #fff;
-            border-collapse: separate;
-            border-spacing: 0;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <div class="text-muted mb-3">
+                                <i class="bi bi-inbox fs-1"></i>
+                                <p class="mt-2">Belum ada laporan yang masuk.</p>
+                            </div>
 
-        th {
-            background-color: var(--primary);
-            color: white;
-            padding: 15px;
-            text-transform: uppercase;
-            font-size: 13px;
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-            border: none;
-            text-decoration: none;
-        }
-
-        .btn-add {
-            background: var(--secondary);
-            color: #000;
-            margin-bottom: 20px;
-            display: inline-block;
-        }
-
-        .status-badge {
-            background: #e1f5fe;
-            color: #01579b;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        .btn-status {
-            background: var(--primary);
-            color: white;
-            font-size: 12px;
-        }
-
-        .selesai-text {
-            color: #27ae60;
-            font-weight: bold;
-        }
-
-        .action-icons a {
-            text-decoration: none;
-            margin: 0 5px;
-            font-size: 18px;
-        }
-    </style>
-</head>
-
-<body>
-    <nav>
-        <a href="{% url 'report_list' %}">BERANDA</a>
-        <a href="/about/">ABOUT SMART CITY</a>
-        <a href="/contacts/">CONTROL CENTER</a>
-    </nav>
-
-    <div class="header-section">
-        <h1>PASIR SAKTI SMART CITY PORTAL</h1>
-        <p>Integrasi Layanan Digital Menuju Tata Kelola Kota yang Cerdas & Akuntabel</p>
+                            <a href="{% url 'report_add' %}" class="btn btn-sm btn-outline-primary">Tambah laporan
+                                pertama Anda</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <h3 style="color: var(--primary);">Dashboard Monitor Aduan Warga</h3>
-        <a href="{% url 'report_add' %}" class="btn btn-add">+ BUAT LAPORAN BARU</a>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Judul Laporan</th>
-                <th>Lokasi Spesifik</th>
-                <th>Tahapan</th>
-                <th>Smart Workflow</th>
-                <th>Kelola</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for report in reports %}
-            <tr>
-                <td>
-                    <a href="{% url 'report_detail' report.pk %}"
-                        style="color: var(--primary); font-weight: 600; text-decoration: none;">
-                        {{ report.title }}
-                    </a>
-                </td>
-                <td><span style="color: #666;">📍 {{ report.location }}</span></td>
-                <td><span class="status-badge">{{ report.get_status_display }}</span></td>
-                <td>
-                    <form action="{% url 'report_status' report.pk %}" method="POST">
-                        {% csrf_token %}
-                        {% if report.status == 'REPORTED' %}
-                        <input type="hidden" name="status" value="VERIFIED">
-                        <button type="submit" class="btn btn-status">Verifikasi</button>
-                        {% elif report.status == 'VERIFIED' %}
-                        <input type="hidden" name="status" value="IN_PROGRESS">
-                        <button type="submit" class="btn btn-status" style="background: var(--accent);">Proses</button>
-                        {% elif report.status == 'IN_PROGRESS' %}
-                        <input type="hidden" name="status" value="RESOLVED">
-                        <button type="submit" class="btn btn-status" style="background: #27ae60;">Selesaikan</button>
-                        {% else %}
-                        <span class="selesai-text">Tuntas Teratasi ✓</span>
-                        {% endif %}
-                    </form>
-                </td>
-                <td class="action-icons">
-                    <a href="{% url 'report_detail' report.pk %}" title="Lihat Detail"><span>👁️</span></a>
-                    <a href="{% url 'report_edit' report.pk %}" title="Edit"><span>📝</span></a>
-                    <a href="{% url 'report_delete' report.pk %}" title="Hapus"><span>🗑️</span></a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5" style="text-align: center; color: #999; padding: 30px;">
-                    Belum ada data aduan warga yang masuk di database Smart City.
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <footer style="margin-top: 50px; text-align: center; color: #7f8c8d; font-size: 12px;">
-        <p>&copy; 2026 Pasir Sakti Smart City | Dikembangkan oleh Rezaldi Zazky - Polinela</p>
-    </footer>
-</body>
-
-</html>
+</div>
+{% endblock %}

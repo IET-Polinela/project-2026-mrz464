@@ -1,6 +1,6 @@
 """
 Django settings for n24782086_iet_2026 project.
-Updated for Lab Session 3 - Smart City Issue Reporting
+Updated for Lab Session 6 - User Management & Authentication
 """
 
 from pathlib import Path
@@ -24,6 +24,8 @@ INSTALLED_APPS = [
     "main_app",
     "about",
     "contacts",
+    # 1. Daftarkan app usermanagement sesuai NPM kamu [cite: 17]
+    "usermanagement_24782086", 
 ]
 
 MIDDLEWARE = [
@@ -41,7 +43,7 @@ ROOT_URLCONF = "n24782086_iet_2026.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / 'templates'], 
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -56,7 +58,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "n24782086_iet_2026.wsgi.application"
 
 # Database Configuration for PostgreSQL
-# Berdasarkan Instruksi Lab 3 poin 1
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -81,3 +82,11 @@ USE_I18N = True
 USE_TZ = True
 STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 2. Konfigurasi AUTH_USER_MODEL (Instruksi Lab 6 Poin 1) [cite: 21]
+# Memberitahu Django untuk menggunakan model User dari app usermanagement kamu.
+AUTH_USER_MODEL = 'usermanagement_24782086.User'
+
+# Tambahan untuk mempermudah Step Login/Logout nantinya
+LOGIN_REDIRECT_URL = 'report_list'
+LOGOUT_REDIRECT_URL = 'login'

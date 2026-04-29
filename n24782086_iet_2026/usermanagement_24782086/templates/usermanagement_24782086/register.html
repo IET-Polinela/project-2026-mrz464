@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrasi Citizen - Smart City{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card shadow border-0">
+            <div class="card-header bg-smartcity text-white text-center py-3">
+                <h4 class="mb-0 fw-bold">Daftar Akun Citizen</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-smartcity w-100 fw-bold mt-3">Daftar Sekarang</button>
+                </form>
+                <hr>
+                <p class="text-center mb-0">Sudah punya akun? <a href="{% url 'login' %}"
+                        class="text-smartcity text-decoration-none">Login di sini</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

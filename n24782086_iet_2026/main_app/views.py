@@ -2,7 +2,14 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.views import View
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, redirect
+# Tambahan import untuk proteksi keamanan dan feedback pesan [cite: 42, 45]
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib import messages
 from .models import Report
+
+# ==========================================
+# VIEW PUBLIK (Bisa diakses Citizen & Admin)
+# ==========================================
 
 # Menampilkan semua daftar laporan (List)
 class ReportListView(ListView):
@@ -15,31 +22,71 @@ class ReportDetailView(DetailView):
     model = Report
     template_name = 'main_app/report_detail.html'
 
+# ==========================================
+# VIEW TERPROTEKSI (Hanya bisa diakses Admin)
+# ==========================================
+
 # Membuat laporan baru
-class ReportCreateView(CreateView):
+class ReportCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Report
     fields = ['title', 'category', 'description', 'location']
     template_name = 'main_app/add_report.html'
     success_url = reverse_lazy('report_list')
 
+    # Fungsi pengecekan: Apakah user sudah login DAN apakah dia Admin? 
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_admin
+
+    # Jika bukan Admin, arahkan kembali dengan pesan error 
+    def handle_no_permission(self):
+        messages.error(self.request, "Akses Ditolak! Fitur Tambah Data hanya untuk Admin.")
+        return redirect('report_list')
+
 # Mengedit laporan
-class ReportUpdateView(UpdateView):
+class ReportUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Report
     fields = ['title', 'category', 'description', 'location']
     template_name = 'main_app/edit_report.html'
     success_url = reverse_lazy('report_list')
 
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_admin
+
+    def handle_no_permission(self):
+        messages.error(self.request, "Akses Ditolak! Fitur Edit Data hanya untuk Admin.")
+        return redirect('report_list')
+
 # Menghapus laporan
-class ReportDeleteView(DeleteView):
+class ReportDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Report
     template_name = 'main_app/delete_report_confirm.html'
     success_url = reverse_lazy('report_list')
 
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_admin
+
+    def handle_no_permission(self):
+        messages.error(self.request, "Akses Ditolak! Fitur Hapus Data hanya untuk Admin.")
+        return redirect('report_list')
+
+    # Feedback sukses menghapus (dari Lab 5)
+    def post(self, request, *args, **kwargs):
+        messages.success(request, "Laporan berhasil dihapus secara permanen!")
+        return super().post(request, *args, **kwargs)
+
 # View khusus untuk Workflow perubahan status
-class ReportUpdateStatusView(View):
+class ReportUpdateStatusView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_admin
+
+    def handle_no_permission(self):
+        messages.error(self.request, "Akses Ditolak! Fitur Ubah Status hanya untuk Admin.")
+        return redirect('report_list')
+
     def post(self, request, pk):
         report = get_object_or_404(Report, pk=pk)
         new_status = request.POST.get('status')
         report.status = new_status
         report.save()
+        messages.success(request, "Status laporan berhasil diubah!")
         return redirect('report_list')

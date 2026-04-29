@@ -1,28 +1,50 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>Konfirmasi Hapus</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            max-width: 500px;
-            margin: auto;
-            padding: 20px;
-            text-align: center;
-        }
-    </style>
-</head>
+{% block title %}Konfirmasi Hapus - Pasir Sakti Smart City{% endblock %}
 
-<body>
-    <h1>Hapus Laporan?</h1>
-    <p>Apakah Anda yakin ingin menghapus laporan: <strong>{{ report.title }}</strong>?</p>
-    <form method="POST">
-        {% csrf_token %}
-        <button type="submit" style="background: #dc3545; color: white; padding: 10px;">Ya, Hapus Permanen</button>
-    </form>
-    <br>
-    <a href="{% url 'report_list' %}">Batal dan Kembali</a>
-</body>
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'report_list' %}"
+                class="text-decoration-none text-smartcity">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'report_list' %}"
+                class="text-decoration-none text-smartcity">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Hapus Laporan</li>
+    </ol>
+</nav>
 
-</html>
+<div class="row justify-content-center mt-5 mb-5">
+    <div class="col-md-6">
+        <div class="card border-danger shadow-lg">
+            <div class="card-header bg-danger text-white text-center py-3">
+                <h4 class="mb-0 fw-bold"><i class="bi bi-exclamation-triangle-fill"></i> Peringatan Sistem</h4>
+            </div>
+            <div class="card-body text-center p-4">
+                <h5 class="card-title text-dark mb-3">Hapus Data Secara Permanen?</h5>
+
+                <div class="alert alert-light border border-danger mb-4 text-start">
+                    Apakah Anda yakin ingin menghapus laporan aduan berikut:<br>
+                    <strong class="fs-5 text-danger">"{{ report.title }}"</strong>
+                </div>
+
+                <p class="text-muted mb-4 small">
+                    <i class="bi bi-info-circle"></i> Tindakan ini tidak dapat dibatalkan. Data laporan yang dihapus
+                    tidak akan bisa dipulihkan kembali ke dalam sistem Smart City.
+                </p>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{% url 'report_list' %}" class="btn btn-outline-secondary px-4 fw-bold">
+                            <i class="bi bi-x-circle"></i> Batal
+                        </a>
+                        <button type="submit" class="btn btn-danger px-4 fw-bold shadow-sm" onclick="showLoading(this)">
+                            <i class="bi bi-trash"></i> Ya, Hapus Data
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
