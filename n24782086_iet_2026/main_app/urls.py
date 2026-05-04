@@ -1,12 +1,16 @@
 from django.urls import path
 from .views import (
+    home_view, # Pastikan home_view ikut di-import
     ReportListView, ReportDetailView, ReportCreateView, 
     ReportUpdateView, ReportDeleteView, ReportUpdateStatusView
 )
 
 urlpatterns = [
-    # Halaman utama menampilkan daftar laporan (ListView)
-    path('', ReportListView.as_view(), name='report_list'),
+    # 1. Halaman utama (Landing Page)
+    path('', home_view, name='home'),
+    
+    # 2. Halaman menampilkan daftar laporan (ListView)
+    path('laporan/', ReportListView.as_view(), name='report_list'),
     
     # Halaman detail laporan (DetailView)
     path('report/<int:pk>/', ReportDetailView.as_view(), name='report_detail'),

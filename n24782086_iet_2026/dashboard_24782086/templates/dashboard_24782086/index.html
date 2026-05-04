@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+
+{% block title %}Statistik Dashboard - Pasir Sakti{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'report_list' %}" class="text-decoration-none text-smartcity"><i
+                        class="bi bi-house-door"></i> Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Statistik Dashboard</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-smartcity">📊 Dashboard Analitik Pasir Sakti</h2>
+        <span class="badge bg-primary fs-6 shadow-sm px-3 py-2">
+            <i class="bi bi-broadcast me-1"></i> Real-time Data
+        </span>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-header bg-success text-white fw-bold border-0">
+                    <i class="bi bi-pie-chart-fill me-2"></i>Persentase Status Laporan
+                </div>
+                <div class="card-body d-flex justify-content-center align-items-center">
+                    <div style="width: 80%; padding: 10px;">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-header bg-warning text-dark fw-bold border-0">
+                    <i class="bi bi-bar-chart-fill me-2"></i>Total Laporan per Kategori
+                </div>
+                <div class="card-body">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-header bg-danger text-white fw-bold border-0">
+                    <i class="bi bi-clock-history me-2"></i>5 Laporan Terakhir (REPORTED)
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <tbody id="reportedTable">
+                            <tr>
+                                <td class="text-center py-4 text-muted">
+                                    <div class="spinner-border spinner-border-sm"></div> Memuat data...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-header bg-primary text-white fw-bold border-0">
+                    <i class="bi bi-check2-circle me-2"></i>5 Laporan Terakhir (RESOLVED)
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <tbody id="resolvedTable">
+                            <tr>
+                                <td class="text-center py-4 text-muted">
+                                    <div class="spinner-border spinner-border-sm"></div> Memuat data...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // Ambil data dari API
+        fetch('/dashboard/api/stats/')
+            .then(res => res.json())
+            .then(data => {
+
+                // --- 1. RENDER DOUGHNUT CHART (STATUS) ---
+                new Chart(document.getElementById('statusChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: data.status_data.map(i => i.status),
+                        datasets: [{
+                            data: data.status_data.map(i => i.total),
+                            backgroundColor: [
+                                'rgba(255, 193, 7, 0.85)',   // Kuning (Reported)
+                                'rgba(13, 110, 253, 0.85)',  // Biru (Verified)
+                                'rgba(25, 135, 84, 0.85)',   // Hijau (Resolved)
+                                'rgba(108, 117, 125, 0.85)'  // Abu (In Progress)
+                            ],
+                            borderColor: '#ffffff',
+                            borderWidth: 3,
+                            hoverOffset: 12
+                        }]
+                    },
+                    options: {
+                        devicePixelRatio: 3, // KUALITAS SUPER TAJAM
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        cutout: '65%',
+                        plugins: {
+                            legend: { position: 'bottom', labels: { padding: 20 } }
+                        }
+                    }
+                });
+
+                // --- 2. RENDER BAR CHART (KATEGORI) ---
+                new Chart(document.getElementById('categoryChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: data.category_data.map(i => i.category),
+                        datasets: [{
+                            label: 'Jumlah Laporan',
+                            data: data.category_data.map(i => i.total),
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.8)',
+                                'rgba(54, 162, 235, 0.8)',
+                                'rgba(255, 206, 86, 0.8)',
+                                'rgba(75, 192, 192, 0.8)',
+                                'rgba(153, 102, 255, 0.8)'
+                            ],
+                            borderRadius: 8,
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        devicePixelRatio: 3, // KUALITAS SUPER TAJAM
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { borderDash: [5, 5], color: '#f0f0f0' }
+                            },
+                            x: {
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+
+                // --- 3. ISI TABEL REPORTED ---
+                const reportedHTML = data.latest_reported.map(r => `
+                <tr>
+                    <td class="ps-4 py-3">
+                        <div class="fw-bold text-dark">${r.title}</div>
+                        <small class="text-muted"><i class="bi bi-geo-alt-fill text-danger"></i> ${r.location}</small>
+                    </td>
+                    <td class="align-middle text-end pe-4">
+                        <span class="badge bg-danger rounded-pill px-3 py-2 shadow-sm">NEW</span>
+                    </td>
+                </tr>
+            `).join('');
+                document.getElementById('reportedTable').innerHTML = reportedHTML || '<tr><td class="text-center py-4">Belum ada data.</td></tr>';
+
+                // --- 4. ISI TABEL RESOLVED ---
+                const resolvedHTML = data.latest_resolved.map(r => `
+                <tr>
+                    <td class="ps-4 py-3">
+                        <div class="fw-bold text-dark">${r.title}</div>
+                        <small class="text-muted"><i class="bi bi-geo-alt-fill text-primary"></i> ${r.location}</small>
+                    </td>
+                    <td class="align-middle text-end pe-4">
+                        <span class="badge bg-success rounded-pill px-3 py-2 shadow-sm">DONE</span>
+                    </td>
+                </tr>
+            `).join('');
+                document.getElementById('resolvedTable').innerHTML = resolvedHTML || '<tr><td class="text-center py-4">Belum ada data.</td></tr>';
+            });
+    });
+</script>
+{% endblock %}

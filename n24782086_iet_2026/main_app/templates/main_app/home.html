@@ -1,105 +1,174 @@
 {% extends 'base.html' %}
 
-{% block title %}Dashboard - Pasir Sakti Smart City{% endblock %}
+{% block title %}Beranda - Pasir Sakti Smart City{% endblock %}
 
 {% block content %}
-<nav aria-label="breadcrumb" class="mb-4">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'report_list' %}" class="text-decoration-none text-smartcity"><i
-                    class="bi bi-house-door"></i> Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Dashboard Laporan</li>
-    </ol>
-</nav>
+<style>
+    /* Mengimpor Font 'Poppins' */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="text-smartcity fw-bold mb-0">Daftar Laporan Infrastruktur</h3>
-    <a href="{% url 'report_add' %}" class="btn btn-smartcity shadow-sm">
-        <i class="bi bi-plus-circle"></i> Tambah Laporan
-    </a>
-</div>
+    .landing-page {
+        font-family: 'Poppins', sans-serif;
+    }
 
-<div class="card shadow-sm border-0">
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th class="ps-4">Judul Laporan</th>
-                        <th>Lokasi Spesifik</th>
-                        <th>Status</th>
-                        <th class="text-center">Aksi Workflow</th>
-                        <th class="text-center pe-4">Kelola Data</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for report in reports %}
-                    <tr>
-                        <td class="ps-4 fw-semibold">
-                            <a href="{% url 'report_detail' report.pk %}" class="text-decoration-none text-dark">
-                                {{ report.title }}
-                            </a>
-                        </td>
-                        <td class="text-muted"><i class="bi bi-geo-alt"></i> {{ report.location }}</td>
+    .hero-title {
+        font-weight: 800;
+        /* Dibuat lebih tebal agar tegas */
+        color: #2b2d42;
+        /* Warna Navy/Abu Gelap yang sangat elegan, bukan hijau kusam */
+        line-height: 1.2;
+        letter-spacing: -0.5px;
+        /* Jarak huruf dirapatkan sedikit ala startup */
+    }
 
-                        <td>
-                            {% if report.status == 'REPORTED' %}
-                            <span class="badge bg-secondary">Reported</span>
-                            {% elif report.status == 'VERIFIED' %}
-                            <span class="badge bg-primary">Verified</span>
-                            {% elif report.status == 'IN_PROGRESS' %}
-                            <span class="badge bg-warning text-dark">In Progress</span>
-                            {% elif report.status == 'RESOLVED' %}
-                            <span class="badge bg-success">Resolved</span>
-                            {% endif %}
-                        </td>
+    /* Gradasi Baru: Hijau Gelap ke Hijau Terang (Lebih Segar & Nyambung) */
+    .text-gradient {
+        background: linear-gradient(135deg, #1e5631 0%, #4caf50 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-                        <td class="text-center">
-                            <form action="{% url 'report_status' report.pk %}" method="POST" class="d-inline">
-                                {% csrf_token %}
-                                {% if report.status == 'REPORTED' %}
-                                <input type="hidden" name="status" value="VERIFIED">
-                                <button type="submit" class="btn btn-sm btn-primary"
-                                    onclick="showLoading(this)">Verifikasi</button>
-                                {% elif report.status == 'VERIFIED' %}
-                                <input type="hidden" name="status" value="IN_PROGRESS">
-                                <button type="submit" class="btn btn-sm btn-warning text-dark"
-                                    onclick="showLoading(this)">Proses</button>
-                                {% elif report.status == 'IN_PROGRESS' %}
-                                <input type="hidden" name="status" value="RESOLVED">
-                                <button type="submit" class="btn btn-sm btn-success"
-                                    onclick="showLoading(this)">Selesaikan</button>
-                                {% else %}
-                                <span class="text-success fw-bold"><i class="bi bi-check2-all"></i> Tuntas</span>
-                                {% endif %}
-                            </form>
-                        </td>
+    /* Efek Animasi Ikon Mengambang */
+    .floating-icon {
+        animation: float 3s ease-in-out infinite;
+    }
 
-                        <td class="text-center pe-4">
-                            <a href="{% url 'report_detail' report.pk %}" class="btn btn-sm btn-outline-info"
-                                title="Detail"><i class="bi bi-eye"></i></a>
+    @keyframes float {
+        0% {
+            transform: translateY(0px);
+        }
 
-                            <a href="{% url 'report_edit' report.pk %}" class="btn btn-sm btn-outline-secondary"
-                                title="Edit"><i class="bi bi-pencil"></i></a>
-                            <a href="{% url 'report_delete' report.pk %}" class="btn btn-sm btn-outline-danger"
-                                title="Hapus"><i class="bi bi-trash"></i></a>
-                        </td>
-                    </tr>
+        50% {
+            transform: translateY(-15px);
+        }
 
-                    {% empty %}
-                    <tr>
-                        <td colspan="5" class="text-center py-5">
-                            <div class="text-muted mb-3">
-                                <i class="bi bi-inbox fs-1"></i>
-                                <p class="mt-2">Belum ada laporan yang masuk.</p>
-                            </div>
+        100% {
+            transform: translateY(0px);
+        }
+    }
 
-                            <a href="{% url 'report_add' %}" class="btn btn-sm btn-outline-primary">Tambah laporan
-                                pertama Anda</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    /* Efek Hover pada Kartu Fitur */
+    .feature-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 20px;
+        border: none;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .icon-wrapper {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+</style>
+
+<div class="landing-page">
+    <div class="container py-5 mt-2">
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-6 text-center text-lg-start mb-5 mb-lg-0">
+                <div class="badge bg-light text-success border border-success rounded-pill px-3 py-2 mb-3 shadow-sm"
+                    style="font-weight: 600;">
+                    <i class="bi bi-stars"></i> Inovasi Layanan Publik Digital
+                </div>
+                <h1 class="display-4 hero-title mb-4">
+                    Wujudkan <span class="text-gradient">Pasir Sakti</span><br>Yang Lebih Maju
+                </h1>
+                <p class="lead text-muted mb-5" style="font-weight: 300; font-size: 1.1rem; color: #6c757d !important;">
+                    Platform digital resmi untuk partisipasi warga. Laporkan kerusakan fasilitas, jalan, dan masalah
+                    lingkungan dalam hitungan detik. Pantau tindak lanjut secara <strong>real-time</strong> dan
+                    transparan.
+                </p>
+                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-lg-start">
+                    <a href="{% url 'report_add' %}"
+                        class="btn btn-smartcity btn-lg rounded-pill px-5 shadow-sm fw-bold border-0"
+                        style="padding-top: 12px; padding-bottom: 12px;">
+                        <i class="bi bi-send-fill me-2"></i> Lapor Sekarang
+                    </a>
+                    <a href="{% url 'report_list' %}"
+                        class="btn btn-outline-dark btn-lg rounded-pill px-5 fw-bold bg-white shadow-sm"
+                        style="padding-top: 12px; padding-bottom: 12px;">
+                        <i class="bi bi-folder2-open me-2"></i> Cek Data Laporan
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6 position-relative text-center">
+                <div class="position-absolute top-50 start-50 translate-middle"
+                    style="width: 450px; height: 450px; background: radial-gradient(circle, rgba(76, 175, 80, 0.1) 0%, rgba(255,255,255,0) 70%); z-index: -1;">
+                </div>
+
+                <div class="bg-white rounded-circle d-inline-flex justify-content-center align-items-center shadow-sm floating-icon border border-light"
+                    style="width: 350px; height: 350px; position: relative;">
+                    <i class="bi bi-buildings-fill" style="font-size: 11rem; color: #2d5a27;"></i>
+
+                    <div class="position-absolute shadow-sm bg-white rounded-pill px-4 py-2 border"
+                        style="top: 30px; right: -30px;">
+                        <i class="bi bi-lightning-charge-fill text-warning"></i> <span
+                            class="fw-bold small text-dark">Respon Cepat</span>
+                    </div>
+                    <div class="position-absolute shadow-sm bg-white rounded-pill px-4 py-2 border"
+                        style="bottom: 40px; left: -20px;">
+                        <i class="bi bi-shield-check text-primary"></i> <span class="fw-bold small text-dark">Aman &
+                            Terpadu</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-5 text-muted opacity-25">
+
+        <div class="row text-center mt-5 mb-4">
+            <div class="col-12 mb-5">
+                <h3 class="fw-bold text-dark" style="font-size: 2rem;">Mengapa Menggunakan Portal Ini?</h3>
+                <p class="text-muted">Tiga langkah mudah untuk perubahan lingkungan yang lebih baik.</p>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100 shadow-sm p-4">
+                    <div class="card-body">
+                        <div class="icon-wrapper bg-light text-primary fs-1 shadow-sm">
+                            <i class="bi bi-phone-vibrate"></i>
+                        </div>
+                        <h4 class="fw-bold mt-2 text-dark">Lapor Cepat</h4>
+                        <p class="text-muted small mb-0 mt-3">Gunakan perangkat Anda, sertakan foto lokasi masalah, dan
+                            kirim laporan kapan saja di mana saja.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100 shadow-sm p-4">
+                    <div class="card-body">
+                        <div class="icon-wrapper bg-light text-warning fs-1 shadow-sm">
+                            <i class="bi bi-activity"></i>
+                        </div>
+                        <h4 class="fw-bold mt-2 text-dark">Pantau Real-Time</h4>
+                        <p class="text-muted small mb-0 mt-3">Lacak status laporan Anda. Mulai dari 'Masuk' hingga
+                            'Selesai Diperbaiki' secara transparan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100 shadow-sm p-4">
+                    <div class="card-body">
+                        <div class="icon-wrapper bg-light text-success fs-1 shadow-sm">
+                            <i class="bi bi-tools"></i>
+                        </div>
+                        <h4 class="fw-bold mt-2 text-dark">Tindak Lanjut</h4>
+                        <p class="text-muted small mb-0 mt-3">Laporan valid Anda akan langsung diteruskan ke instansi
+                            terkait agar segera mendapatkan penanganan.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -11,6 +11,9 @@ urlpatterns = [
     path('about/', include('about.urls')),
     path('contacts/', include('contacts.urls')),
     
+    # --- Rute Dashboard (Lab Session 7) ---
+    path('dashboard/', include('dashboard_24782086.urls')),
+    
     # --- Rute Autentikasi (Lab Session 6) ---
     
     # 1. Login: Menggunakan view bawaan Django

@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Pasir Sakti Smart City{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'report_list' %}" class="text-decoration-none text-smartcity"><i
+                    class="bi bi-house-door"></i> Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Dashboard Laporan</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="text-smartcity fw-bold mb-0">Daftar Laporan Infrastruktur</h3>
+    <a href="{% url 'report_add' %}" class="btn btn-smartcity shadow-sm">
+        <i class="bi bi-plus-circle"></i> Tambah Laporan
+    </a>
+</div>
+
+<div class="card shadow-sm mb-4 border-0">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center border-0">
+        <span class="fw-bold"><i class="bi bi-search me-2"></i>Live Search Cepat</span>
+        <input type="text" id="searchInput" class="form-control form-control-sm w-25 border-0 shadow-none"
+            placeholder="Cari judul/lokasi...">
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped align-middle mb-0">
+                <tbody id="searchResults">
+                    <tr id="searchPrompt">
+                        <td class="text-center text-muted py-4">
+                            <i class="bi bi-keyboard fs-4 d-block mb-2"></i>
+                            Mulai mengetik untuk memfilter laporan secara instan...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow" id="modalContent"></div>
+    </div>
+</div>
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Judul Laporan</th>
+                        <th>Lokasi Spesifik</th>
+                        <th>Status</th>
+                        <th class="text-center">Aksi Workflow</th>
+                        <th class="text-center pe-4">Kelola Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in reports %}
+                    <tr>
+                        <td class="ps-4 fw-semibold">
+                            <a href="{% url 'report_detail' report.pk %}" class="text-decoration-none text-dark">
+                                {{ report.title }}
+                            </a>
+                        </td>
+                        <td class="text-muted"><i class="bi bi-geo-alt"></i> {{ report.location }}</td>
+
+                        <td>
+                            {% if report.status == 'REPORTED' %}
+                            <span class="badge bg-secondary">Reported</span>
+                            {% elif report.status == 'VERIFIED' %}
+                            <span class="badge bg-primary">Verified</span>
+                            {% elif report.status == 'IN_PROGRESS' %}
+                            <span class="badge bg-warning text-dark">In Progress</span>
+                            {% elif report.status == 'RESOLVED' %}
+                            <span class="badge bg-success">Resolved</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center">
+                            <form action="{% url 'report_status' report.pk %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                {% if report.status == 'REPORTED' %}
+                                <input type="hidden" name="status" value="VERIFIED">
+                                <button type="submit" class="btn btn-sm btn-primary"
+                                    onclick="showLoading(this)">Verifikasi</button>
+                                {% elif report.status == 'VERIFIED' %}
+                                <input type="hidden" name="status" value="IN_PROGRESS">
+                                <button type="submit" class="btn btn-sm btn-warning text-dark"
+                                    onclick="showLoading(this)">Proses</button>
+                                {% elif report.status == 'IN_PROGRESS' %}
+                                <input type="hidden" name="status" value="RESOLVED">
+                                <button type="submit" class="btn btn-sm btn-success"
+                                    onclick="showLoading(this)">Selesaikan</button>
+                                {% else %}
+                                <span class="text-success fw-bold"><i class="bi bi-check2-all"></i> Tuntas</span>
+                                {% endif %}
+                            </form>
+                        </td>
+
+                        <td class="text-center pe-4">
+                            <a href="{% url 'report_detail' report.pk %}" class="btn btn-sm btn-outline-info"
+                                title="Detail"><i class="bi bi-eye"></i></a>
+
+                            <a href="{% url 'report_edit' report.pk %}" class="btn btn-sm btn-outline-secondary"
+                                title="Edit"><i class="bi bi-pencil"></i></a>
+                            <a href="{% url 'report_delete' report.pk %}" class="btn btn-sm btn-outline-danger"
+                                title="Hapus"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <div class="text-muted mb-3">
+                                <i class="bi bi-inbox fs-1"></i>
+                                <p class="mt-2">Belum ada laporan yang masuk.</p>
+                            </div>
+
+                            <a href="{% url 'report_add' %}" class="btn btn-sm btn-outline-primary">Tambah laporan
+                                pertama Anda</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // --- 1. Fitur Live Search ---
+        const searchInput = document.getElementById('searchInput');
+        const resultsTable = document.getElementById('searchResults');
+        let timeout = null;
+
+        searchInput.addEventListener('keyup', function () {
+            clearTimeout(timeout);
+            const query = this.value;
+
+            if (query.length > 0) {
+                resultsTable.innerHTML = '<tr><td class="text-center py-4"><div class="spinner-border text-dark spinner-border-sm"></div> Mencari data...</td></tr>';
+            }
+
+            timeout = setTimeout(() => {
+                if (query.length < 1) {
+                    resultsTable.innerHTML = `
+                    <tr>
+                        <td class="text-center text-muted py-4">
+                            <i class="bi bi-keyboard fs-4 d-block mb-2"></i>
+                            Mulai mengetik untuk memfilter laporan secara instan...
+                        </td>
+                    </tr>`;
+                    return;
+                }
+
+                // Memanggil API dari jalur dashboard
+                fetch(`/dashboard/api/search/?q=${query}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        resultsTable.innerHTML = '';
+                        if (data.results.length === 0) {
+                            resultsTable.innerHTML = '<tr><td class="text-center py-4 text-danger fw-bold"><i class="bi bi-exclamation-circle fs-4 d-block mb-2"></i>Laporan tidak ditemukan.</td></tr>';
+                            return;
+                        }
+
+                        data.results.forEach(r => {
+                            resultsTable.innerHTML += `
+                            <tr>
+                                <td class="ps-4 fw-bold text-dark w-50">${r.title}</td>
+                                <td><span class="badge bg-light text-dark border">${r.category}</span></td>
+                                <td><span class="badge bg-secondary">${r.status}</span></td>
+                                <td class="text-center pe-4">
+                                    <button class="btn btn-sm btn-outline-primary btn-detail rounded-pill px-3" data-id="${r.id}">
+                                        <i class="bi bi-eye"></i> Detail
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                        });
+                    });
+            }, 300);
+        });
+
+        // --- 2. Fitur Pop-up Modal ---
+        const myModal = new bootstrap.Modal(document.getElementById('reportModal'));
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.btn-detail');
+            if (btn) {
+                const id = btn.getAttribute('data-id');
+                document.getElementById('modalContent').innerHTML = '<div class="modal-body text-center py-5"><div class="spinner-border text-primary"></div></div>';
+                myModal.show();
+
+                fetch(`/dashboard/api/detail/${id}/`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.error) return;
+                        document.getElementById('modalContent').innerHTML = `
+                        <div class="modal-header bg-light border-0">
+                            <h5 class="modal-title fw-bold">${data.title}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="mb-3 text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> ${data.location}</p>
+                            <p class="mb-2"><span class="badge bg-light text-dark border px-2 py-1"><i class="bi bi-tag-fill text-warning me-1"></i> ${data.category}</span></p>
+                            <div class="bg-light p-3 rounded mt-3">
+                                <p class="mb-0 text-dark"><strong>Deskripsi:</strong><br>${data.description}</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0 d-flex justify-content-between bg-light">
+                            <span>Status: <span class="badge bg-success shadow-sm px-3 py-2">${data.status}</span></span>
+                            <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                    `;
+                    });
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -25,7 +25,8 @@ INSTALLED_APPS = [
     "about",
     "contacts",
     # 1. Daftarkan app usermanagement sesuai NPM kamu [cite: 17]
-    "usermanagement_24782086", 
+    "usermanagement_24782086",
+    'dashboard_24782086', 
 ]
 
 MIDDLEWARE = [
@@ -83,8 +84,8 @@ USE_TZ = True
 STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# 2. Konfigurasi AUTH_USER_MODEL (Instruksi Lab 6 Poin 1)
-# Memberitahu Django untuk menggunakan model User dari app usermanagement.
+# 2. Konfigurasi AUTH_USER_MODEL (Instruksi Lab 6 Poin 1) [cite: 21]
+# Memberitahu Django untuk menggunakan model User dari app usermanagement kamu.
 AUTH_USER_MODEL = 'usermanagement_24782086.User'
 
 # Tambahan untuk mempermudah Step Login/Logout nantinya

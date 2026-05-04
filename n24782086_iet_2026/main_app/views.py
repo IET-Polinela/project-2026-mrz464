@@ -1,11 +1,18 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views import View
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404, redirect
-# Tambahan import untuk proteksi keamanan dan feedback pesan [cite: 42, 45]
+# Tambahkan 'render' di sini untuk memanggil halaman home biasa
+from django.shortcuts import get_object_or_404, redirect, render 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from .models import Report
+
+# ==========================================
+# VIEW BERANDA / LANDING PAGE (Baru ditambahkan)
+# ==========================================
+def home_view(request):
+    return render(request, 'main_app/home.html')
+
 
 # ==========================================
 # VIEW PUBLIK (Bisa diakses Citizen & Admin)
@@ -14,13 +21,15 @@ from .models import Report
 # Menampilkan semua daftar laporan (List)
 class ReportListView(ListView):
     model = Report
-    template_name = 'main_app/home.html'
+    # Template diubah menjadi report_list.html (karena home.html sekarang jadi Landing Page)
+    template_name = 'main_app/report_list.html' 
     context_object_name = 'reports'
 
 # Menampilkan detail satu laporan
 class ReportDetailView(DetailView):
     model = Report
     template_name = 'main_app/report_detail.html'
+
 
 # ==========================================
 # VIEW TERPROTEKSI (Hanya bisa diakses Admin)
@@ -42,6 +51,7 @@ class ReportCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         messages.error(self.request, "Akses Ditolak! Fitur Tambah Data hanya untuk Admin.")
         return redirect('report_list')
 
+
 # Mengedit laporan
 class ReportUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Report
@@ -55,6 +65,7 @@ class ReportUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def handle_no_permission(self):
         messages.error(self.request, "Akses Ditolak! Fitur Edit Data hanya untuk Admin.")
         return redirect('report_list')
+
 
 # Menghapus laporan
 class ReportDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -73,6 +84,7 @@ class ReportDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def post(self, request, *args, **kwargs):
         messages.success(request, "Laporan berhasil dihapus secara permanen!")
         return super().post(request, *args, **kwargs)
+
 
 # View khusus untuk Workflow perubahan status
 class ReportUpdateStatusView(LoginRequiredMixin, UserPassesTestMixin, View):
