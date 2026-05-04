@@ -83,8 +83,8 @@ USE_TZ = True
 STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# 2. Konfigurasi AUTH_USER_MODEL (Instruksi Lab 6 Poin 1) [cite: 21]
-# Memberitahu Django untuk menggunakan model User dari app usermanagement kamu.
+# 2. Konfigurasi AUTH_USER_MODEL (Instruksi Lab 6 Poin 1)
+# Memberitahu Django untuk menggunakan model User dari app usermanagement.
 AUTH_USER_MODEL = 'usermanagement_24782086.User'
 
 # Tambahan untuk mempermudah Step Login/Logout nantinya
