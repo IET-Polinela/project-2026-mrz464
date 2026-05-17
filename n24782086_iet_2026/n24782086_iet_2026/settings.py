@@ -24,9 +24,9 @@ INSTALLED_APPS = [
     "main_app",
     "about",
     "contacts",
-    # 1. Daftarkan app usermanagement sesuai NPM kamu [cite: 17]
     "usermanagement_24782086",
-    'dashboard_24782086', 
+    'rest_framework',
+    'dashboard_24782086',
 ]
 
 MIDDLEWARE = [

@@ -95,6 +95,8 @@
         fetch('/dashboard/api/stats/')
             .then(res => res.json())
             .then(data => {
+                // --- BARIS UNTUK KEPERLUAN SS LAB 7 (CONSOLE LOG) ---
+                console.log("Data Berhasil Diterima:", data);
 
                 // --- 1. RENDER DOUGHNUT CHART (STATUS) ---
                 new Chart(document.getElementById('statusChart'), {
@@ -104,10 +106,10 @@
                         datasets: [{
                             data: data.status_data.map(i => i.total),
                             backgroundColor: [
-                                'rgba(255, 193, 7, 0.85)',   // Kuning (Reported)
-                                'rgba(13, 110, 253, 0.85)',  // Biru (Verified)
-                                'rgba(25, 135, 84, 0.85)',   // Hijau (Resolved)
-                                'rgba(108, 117, 125, 0.85)'  // Abu (In Progress)
+                                'rgba(255, 193, 7, 0.85)',   // Kuning
+                                'rgba(13, 110, 253, 0.85)',  // Biru
+                                'rgba(25, 135, 84, 0.85)',   // Hijau
+                                'rgba(108, 117, 125, 0.85)'  // Abu
                             ],
                             borderColor: '#ffffff',
                             borderWidth: 3,
@@ -115,7 +117,7 @@
                         }]
                     },
                     options: {
-                        devicePixelRatio: 3, // KUALITAS SUPER TAJAM
+                        devicePixelRatio: 3,
                         responsive: true,
                         maintainAspectRatio: true,
                         cutout: '65%',
@@ -145,7 +147,7 @@
                         }]
                     },
                     options: {
-                        devicePixelRatio: 3, // KUALITAS SUPER TAJAM
+                        devicePixelRatio: 3,
                         responsive: true,
                         plugins: { legend: { display: false } },
                         scales: {
