@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings # Import settings untuk memanggil User Model
 
 STATUS_CHOICES = [
-    ('DRAFT', 'Draft'), # Menambahkan status baru [cite: 30]
+    ('DRAFT', 'Draft'), # Menambahkan status baru 
     ('REPORTED', 'Reported'),
     ('VERIFIED', 'Verified'),
     ('IN_PROGRESS', 'In Progress'),
@@ -15,7 +15,7 @@ class Report(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=200)
     
-    # Menghubungkan laporan ke User [cite: 31]
+    # Menghubungkan laporan ke User
     reporter = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE, 
@@ -30,6 +30,6 @@ class Report(models.Model):
         default='REPORTED'
     )
     
-    # Merekam jejak waktu [cite: 33]
+    # Merekam jejak waktu
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

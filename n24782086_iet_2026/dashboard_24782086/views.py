@@ -1,7 +1,11 @@
 from django.views.generic import TemplateView
 from django.http import JsonResponse
-from main_app.models import Report
 from django.db.models import Count, Q
+from main_app.models import Report  # Tetap pertahankan model utama
+
+# ====================================================================
+# KODE LAB 7 & 8 - UNTUK MENYUPLAI DATA KE WEB HTML & PLOT CHART.JS
+# ====================================================================
 
 # 1. Menampilkan halaman HTML utama
 class DashboardView(TemplateView):
@@ -9,14 +13,10 @@ class DashboardView(TemplateView):
 
 # 2. API untuk menyuplai data ke Chart.js dan Tabel Dashboard
 def dashboard_data(request):
-    # Data agregasi untuk grafik
     status_counts = list(Report.objects.values('status').annotate(total=Count('status')))
     category_counts = list(Report.objects.values('category').annotate(total=Count('category')))
     
-    # 5 Laporan Terbaru (REPORTED) diurutkan dari ID terbesar (paling baru)
     latest_reported = list(Report.objects.filter(status='REPORTED').order_by('-id').values('title', 'category', 'location')[:5])
-    
-    # 5 Laporan Selesai (RESOLVED) diurutkan dari ID terbesar (paling baru)
     latest_resolved = list(Report.objects.filter(status='RESOLVED').order_by('-id').values('title', 'category', 'location')[:5])
     
     return JsonResponse({
@@ -31,7 +31,7 @@ def report_search_api(request):
     query = request.GET.get('q', '')
     reports = Report.objects.filter(
         Q(title__icontains=query) | Q(location__icontains=query)
-    )[:10]  # Dibatasi 10 agar respon server cepat
+    )[:10]
     
     results = []
     for r in reports:

@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "about",
     "contacts",
     "usermanagement_24782086",
+    'rest_framework_simplejwt',
     'rest_framework',
     'dashboard_24782086',
 ]
@@ -91,3 +92,13 @@ AUTH_USER_MODEL = 'usermanagement_24782086.User'
 # Tambahan untuk mempermudah Step Login/Logout nantinya
 LOGIN_REDIRECT_URL = 'report_list'
 LOGOUT_REDIRECT_URL = 'login'
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
