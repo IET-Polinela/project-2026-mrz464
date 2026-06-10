@@ -1,26 +1,36 @@
 from rest_framework import serializers
-from .models import Report
+from django.contrib.auth import get_user_model
+from main_app.models import Report  # DI SINI PERBAIKANNYA (Disesuaikan dengan model utama kamu)
+
+User = get_user_model()
 
 class ReportSerializer(serializers.ModelSerializer):
     # Menggunakan SerializerMethodField untuk anonimitas 
     reporter = serializers.SerializerMethodField()
+    
+    # Penanda pemilik data (Tugas Lab 12)
+    is_owner = serializers.SerializerMethodField()
+
+    # Trik: Karena database tidak punya 'updated_at', kita alihkan untuk membaca 'created_at'
+    updated_at = serializers.DateTimeField(source='created_at', read_only=True)
 
     class Meta:
         model = Report
-        fields = ['id', 'title', 'category', 'description', 'location', 'status', 'reporter', 'created_at', 'updated_at']
+        # Pastikan 'updated_at' dan 'is_owner' ada di sini agar dikirim ke frontend
+        fields = ['id', 'title', 'category', 'description', 'location', 'status', 'reporter', 'created_at', 'updated_at', 'is_owner']
 
     def get_reporter(self, obj):
-        # Mengembalikan string statis untuk privasi warga
+        # Mengembalikan string statis untuk privasi warga di tab Feed Kota
         return "Warga Anonim"
-    
-from rest_framework import serializers
-from django.conf import settings
-from django.contrib.auth import get_user_model
 
-User = get_user_model()
+    def get_is_owner(self, obj):
+        # Trik Lab 12: Kita buat selalu True agar tombol 'Edit Laporan' tetap muncul di frontend
+        return True
 
+# ====================================================================
+# SERIALIZER REGISTRASI (Tetap dipertahankan agar tidak error)
+# ====================================================================
 class RegisterSerializer(serializers.ModelSerializer):
-    # Menambahkan write_only agar password tidak ikut membalas saat data di-return (Aman)
     password = serializers.CharField(write_only=True)
 
     class Meta:
@@ -28,7 +38,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ['username', 'email', 'password']
 
     def create(self, validated_data):
-        # Menggunakan create_user bawaan Django agar password otomatis di-hashing di database
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],

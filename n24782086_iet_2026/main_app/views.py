@@ -18,12 +18,13 @@ def home_view(request):
 # VIEW PUBLIK (Bisa diakses Citizen & Admin)
 # ==========================================
 
-# Menampilkan semua daftar laporan (List)
+# Menampilkan semua daftar laporan (List) - SUDAH DIPERBAIKI AGAR TERBARU DI ATAS
 class ReportListView(ListView):
     model = Report
-    # Template diubah menjadi report_list.html (karena home.html sekarang jadi Landing Page)
     template_name = 'main_app/report_list.html' 
     context_object_name = 'reports'
+    ordering = ['-id']  # <-- INI DIA TRIKNYA! Menambahkan minus (-) sebelum id artinya mengurutkan dari yang terbaru
+
 
 # Menampilkan detail satu laporan
 class ReportDetailView(DetailView):

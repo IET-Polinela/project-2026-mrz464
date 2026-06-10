@@ -3,6 +3,12 @@ from django.http import JsonResponse
 from django.db.models import Count, Q
 from main_app.models import Report  # Tetap pertahankan model utama
 
+# --- IMPORT DRF UNTUK KEBUTUHAN LAB 10 & 12 ---
+from rest_framework import viewsets
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import AllowAny
+from .serializers import ReportSerializer
+
 # ====================================================================
 # KODE LAB 7 & 8 - UNTUK MENYUPLAI DATA KE WEB HTML & PLOT CHART.JS
 # ====================================================================
@@ -26,12 +32,14 @@ def dashboard_data(request):
         'latest_resolved': latest_resolved,
     })
 
-# 3. API untuk fitur Live Search
+# 3. API untuk fitur Live Search (SUDAH DIPERBAIKI AGAR TERBARU DI ATAS)
 def report_search_api(request):
     query = request.GET.get('q', '')
+    
+    # Tambahkan .order_by('-id') agar laporan baru otomatis berada di baris paling atas tabel
     reports = Report.objects.filter(
         Q(title__icontains=query) | Q(location__icontains=query)
-    )[:10]
+    ).order_by('-id')[:10]
     
     results = []
     for r in reports:
@@ -57,3 +65,24 @@ def report_detail_api(request, pk):
         })
     except Report.DoesNotExist:
         return JsonResponse({'error': 'Not found'}, status=404)
+
+# ====================================================================
+# KODE LAB 10 & 12 - DRF API UNTUK SPA CITIZEN PORTAL
+# ====================================================================
+
+class ReportPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+class ReportViewSet(viewsets.ModelViewSet):
+    serializer_class = ReportSerializer
+    pagination_class = ReportPagination
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        # Menyinkronkan urutan agar SPA Portal Warga juga menampilkan data terbaru di atas
+        return Report.objects.all().order_by('-created_at')
+
+    def perform_create(self, serializer):
+        serializer.save()
