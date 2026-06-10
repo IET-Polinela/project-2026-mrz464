@@ -26,21 +26,6 @@ function goToPage(pageNumber) {
     loadDashboardData();
 }
 
-// ====================================================================
-// FUNGSI LOGOUT AMAN: MEMBERSIHKAN SISA MEMORI AKUN LAMA AGAR KOSONG
-// ====================================================================
-function logout() {
-    // Hapus token akses
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-
-    // TRIK REZ: Hapus daftar ID laporan lama agar akun baru tidak warisan data!
-    localStorage.removeItem('my_report_ids');
-
-    // Lempar kembali ke halaman login
-    window.location.hash = '#login';
-}
-
 function setupRegisterForm() {
     const regForm = document.getElementById('registerForm');
     if (!regForm) return;
@@ -68,9 +53,6 @@ function setupRegisterForm() {
 
             if (response.status === 201 || response.status === 200) {
                 alert('Selamat Rez, Akun Warga Baru Berhasil Terdaftar! Silakan login.');
-
-                // Saat sukses daftar akun baru, pastikan memori lama langsung dibersihkan juga
-                localStorage.removeItem('my_report_ids');
                 window.location.hash = '#login';
             } else {
                 const errData = await response.json();
@@ -82,6 +64,9 @@ function setupRegisterForm() {
     };
 }
 
+// ====================================================================
+// PERBAIKAN UTAMA: FILTER BERBASIS KEPEMILIKAN DARI BACKEND JWT (is_owner)
+// ====================================================================
 async function loadDashboardData() {
     const listContainer = document.getElementById('reportList');
     listContainer.className = "d-flex flex-column gap-3";
@@ -93,14 +78,20 @@ async function loadDashboardData() {
         if (response.status === 200) {
             const data = await response.json();
 
+            console.log("ISI DATA SATU LAPORAN:", data.results[0]);
+
             let rawReports = data.results;
             let filteredReports = [];
 
             if (currentTab === 'my_reports') {
-                let localIds = localStorage.getItem('my_report_ids') ? localStorage.getItem('my_report_ids').split(',') : [];
-                filteredReports = rawReports.filter(report => localIds.includes(report.id.toString()));
+                // AMAN: Menyaring laporan milik user aktif secara dinamis berdasarkan data token JWT Backend
+                filteredReports = rawReports.filter(report => report.is_owner === true);
             } else if (currentTab === 'feed') {
-                filteredReports = rawReports.filter(report => report.status !== 'DRAFT');
+                // Feed Kota hanya menampilkan laporan yang sudah resmi diajukan publik (Bukan Draf)
+                filteredReports = rawReports.filter(report => {
+                    let st = report.status ? report.status.toUpperCase() : '';
+                    return st !== 'DRAFT' && st !== 'DRAF';
+                });
             }
 
             renderReports(filteredReports);
@@ -111,7 +102,6 @@ async function loadDashboardData() {
             alert('Sesi login kamu sudah habis nih, Rez. Yuk login ulang dulu!');
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
-            localStorage.removeItem('my_report_ids'); // Ikut dibersihkan di sini
             window.location.hash = '#login';
             return;
         } else {
@@ -169,10 +159,10 @@ function updateSidebarSummary(results) {
 
     results.forEach(r => {
         let currentStatus = r.status ? r.status.toUpperCase() : '';
-        if (currentStatus === 'DRAFT') draft++;
-        if (currentStatus === 'REPORTED' || currentStatus === 'VERIFIED') reported++;
-        if (currentStatus === 'IN_PROGRESS' || currentStatus === 'IN PROGRESS' || currentStatus === 'PROGRESS') progress++;
-        if (currentStatus === 'RESOLVED') resolved++;
+        if (currentStatus === 'DRAFT' || currentStatus === 'DRAF') draft++;
+        if (currentStatus === 'REPORTED' || currentStatus === 'DIAJUKAN' || currentStatus === 'VERIFIED') reported++;
+        if (currentStatus === 'IN_PROGRESS' || currentStatus === 'IN PROGRESS' || currentStatus === 'PROGRESS' || currentStatus === 'DIPROSES') progress++;
+        if (currentStatus === 'RESOLVED' || currentStatus === 'SELESAI') resolved++;
     });
 
     if (document.getElementById('countDraft')) document.getElementById('countDraft').innerText = draft;
@@ -201,7 +191,7 @@ function renderReports(reports) {
         let currentStatus = report.status ? report.status.toUpperCase() : '';
         let categoryText = report.category ? report.category.charAt(0).toUpperCase() + report.category.slice(1).toLowerCase() : 'Fasilitas Umum';
 
-        if (currentStatus === 'DRAFT') {
+        if (currentStatus === 'DRAFT' || currentStatus === 'DRAF') {
             badgeHtml = `<span class="badge bg-secondary text-white px-2 py-1 fs-6 fw-bold rounded">DRAFT</span>`;
             progressHtml = `
                 <div class="d-flex justify-content-between align-items-center mb-1 mt-2">
@@ -211,7 +201,7 @@ function renderReports(reports) {
                 <div class="progress" style="height: 6px;">
                     <div class="progress-bar bg-secondary" style="width: 10%"></div>
                 </div>`;
-        } else if (currentStatus === 'REPORTED') {
+        } else if (currentStatus === 'REPORTED' || currentStatus === 'DIAJUKAN') {
             badgeHtml = `<span class="badge bg-warning text-dark px-2 py-1 fs-6 fw-bold rounded">REPORTED</span>`;
             progressHtml = `
                 <div class="d-flex justify-content-between align-items-center mb-1 mt-2">
@@ -231,7 +221,7 @@ function renderReports(reports) {
                 <div class="progress" style="height: 6px;">
                     <div class="progress-bar bg-info" style="width: 50%"></div>
                 </div>`;
-        } else if (currentStatus === 'IN_PROGRESS' || currentStatus === 'IN PROGRESS' || currentStatus === 'PROGRESS') {
+        } else if (currentStatus === 'IN_PROGRESS' || currentStatus === 'IN PROGRESS' || currentStatus === 'PROGRESS' || currentStatus === 'DIPROSES') {
             badgeHtml = `<span class="badge bg-primary text-white px-2 py-1 fs-6 fw-bold rounded" style="background-color: #0d6efd !important;">IN_PROGRESS</span>`;
             progressHtml = `
                 <div class="d-flex justify-content-between align-items-center mb-1 mt-2">
@@ -241,7 +231,7 @@ function renderReports(reports) {
                 <div class="progress" style="height: 6px;">
                     <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" style="width: 75%"></div>
                 </div>`;
-        } else if (currentStatus === 'RESOLVED') {
+        } else if (currentStatus === 'RESOLVED' || currentStatus === 'SELESAI') {
             badgeHtml = `<span class="badge bg-success text-white px-2 py-1 fs-6 fw-bold rounded">RESOLVED</span>`;
             progressHtml = `
                 <div class="d-flex justify-content-between align-items-center mb-1 mt-2">
@@ -254,14 +244,12 @@ function renderReports(reports) {
         }
 
         let actionButtons = '';
-        if (report.is_owner && currentStatus === 'DRAFT') {
+        if (report.is_owner && (currentStatus === 'DRAFT' || currentStatus === 'DRAF')) {
             actionButtons = `
                 <button class="btn btn-sm btn-outline-primary mt-3 fw-bold px-3 w-100" onclick="editReport(${report.id})">
                     <i class="bi bi-pencil-square me-1"></i> Edit Laporan
                 </button>`;
         }
-
-        const dateFormatted = new Date(report.created_at).toLocaleString('id-ID');
 
         const cardHtml = `
             <div class="col">
@@ -300,6 +288,12 @@ function resetForm() {
     document.getElementById('reportLocation').value = '';
 }
 
+function logout() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    window.location.hash = '#login';
+}
+
 async function editReport(id) {
     try {
         const response = await requestAPI(`/api/reports/${id}/`);
@@ -326,12 +320,13 @@ function setupModalActions() {
 
     const saveReport = async (targetStatus) => {
         const reportId = document.getElementById('reportId').value;
+
         const payload = {
             title: document.getElementById('reportTitle').value,
-            category: document.getElementById('reportCategory').value,
+            category: document.getElementById('reportCategory').value.toUpperCase(),
             description: document.getElementById('reportDescription').value,
             location: document.getElementById('reportLocation').value,
-            status: targetStatus
+            status: targetStatus.toUpperCase()
         };
 
         if (!payload.title || !payload.description || !payload.location) {
@@ -339,21 +334,13 @@ function setupModalActions() {
             return;
         }
 
-        const method = reportId ? 'PUT' : 'POST';
+        const method = reportId ? 'PATCH' : 'POST';
         const endpoint = reportId ? `/api/reports/${reportId}/` : '/api/reports/';
 
         try {
             const response = await requestAPI(endpoint, method, payload);
             if (response.status === 200 || response.status === 201) {
-                const responseData = await response.json();
-
                 alert('Laporan sukses disimpan ke server!');
-
-                if (method === 'POST' && responseData && responseData.id) {
-                    let currentIds = localStorage.getItem('my_report_ids') ? localStorage.getItem('my_report_ids').split(',') : [];
-                    currentIds.push(responseData.id.toString());
-                    localStorage.setItem('my_report_ids', currentIds.join(','));
-                }
 
                 const modalEl = document.getElementById('reportModal');
                 const modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
@@ -361,10 +348,11 @@ function setupModalActions() {
 
                 loadDashboardData();
             } else {
-                alert('Gagal memproses data laporan.');
+                const rawErrorText = await response.text();
+                alert(`Django Menolak!\nStatus: ${response.status}\nPesan Validasi: ${rawErrorText}`);
             }
         } catch (error) {
-            alert('Gangguan koneksi internet.');
+            alert('Gangguan koneksi internet atau server mati.');
         }
     };
 

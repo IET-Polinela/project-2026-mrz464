@@ -6,7 +6,7 @@ from main_app.models import Report  # Tetap pertahankan model utama
 # --- IMPORT DRF UNTUK KEBUTUHAN LAB 10 & 12 ---
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated  # Ubah agar mengenali Token JWT
 from .serializers import ReportSerializer
 
 # ====================================================================
@@ -78,11 +78,12 @@ class ReportPagination(PageNumberPagination):
 class ReportViewSet(viewsets.ModelViewSet):
     serializer_class = ReportSerializer
     pagination_class = ReportPagination
-    permission_classes = [AllowAny]
+    # Mengunci endpoint menggunakan IsAuthenticated agar Django membaca user yang sedang login
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Menyinkronkan urutan agar SPA Portal Warga juga menampilkan data terbaru di atas
         return Report.objects.all().order_by('-created_at')
 
     def perform_create(self, serializer):
-        serializer.save()
+        # KUNCI UTAMA: Otomatis mencatat akun user token yang aktif ke database
+        serializer.save(reporter=self.request.user)

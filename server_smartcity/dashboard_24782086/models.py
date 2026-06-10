@@ -19,7 +19,7 @@ class Report(models.Model):
     reporter = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE, 
-        related_name='reports', 
+        related_name='dashboard_reports', 
         null=True, 
         blank=True
     )

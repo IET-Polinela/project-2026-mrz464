@@ -1,14 +1,15 @@
 from rest_framework import viewsets, permissions
-from .models import Report
+from main_app.models import Report  # FIX: Ambil dari main_app yang punya kolom reporter!
 from .serializers import ReportSerializer
-from .permissions import IsOwnerAndDraftOrReadOnly  # Import permission dari Langkah 3
+from .permissions import IsOwnerAndDraftOrReadOnly 
 
 class ReportViewSet(viewsets.ModelViewSet):
     """
     ViewSet untuk REST API Laporan Smart City Pasir Sakti (Refactoring Lab 10).
     Mendukung CRUD otomatis aman berbasis JWT Token.
     """
-    queryset = Report.objects.all()
+    # Ditambahkan .order_by('-id') agar data terbaru Rez selalu muncul paling atas
+    queryset = Report.objects.all().order_by('-id')
     serializer_class = ReportSerializer
 
     def get_permissions(self):
@@ -20,7 +21,6 @@ class ReportViewSet(viewsets.ModelViewSet):
         if self.action in ['update', 'partial_update', 'destroy']:
             return [permissions.IsAuthenticated(), IsOwnerAndDraftOrReadOnly()]
         
-        # Mengubah AllowAny menjadi IsAuthenticated agar endpoint terkunci JWT
         return [permissions.IsAuthenticated()]
 
     def perform_create(self, serializer):

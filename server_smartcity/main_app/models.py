@@ -1,8 +1,9 @@
 from django.db import models
+from django.conf import settings # Wajib di-import untuk memanggil User Model
 
 class Report(models.Model):
-    # Definisi pilihan status untuk workflow
     STATUS_CHOICES = [
+        ('DRAFT', 'Draft'), 
         ('REPORTED', 'Reported'),
         ('VERIFIED', 'Verified'),
         ('IN_PROGRESS', 'In Progress'),
@@ -14,7 +15,15 @@ class Report(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=200)
     
-    # Update field status menggunakan choices dan default value
+    # INI DIA YANG WAJIB ADA AGAR TIDAK ATTRIBUTE ERROR:
+    reporter = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, 
+        related_name='main_reports', 
+        null=True, 
+        blank=True
+    )
+    
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
