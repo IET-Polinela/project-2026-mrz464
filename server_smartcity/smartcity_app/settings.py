@@ -11,7 +11,7 @@ SECRET_KEY = "django-insecure-g!xd@l#8egb-&1p@1r5ex9n427)d!fdf9#2dyplkhvfjg+9m)5
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
@@ -42,7 +42,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "n24782086_iet_2026.urls"
+ROOT_URLCONF = 'smartcity_app.urls'
 
 TEMPLATES = [
     {
@@ -59,7 +59,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "n24782086_iet_2026.wsgi.application"
+WSGI_APPLICATION = 'smartcity_app.wsgi.application'
 
 # Database Configuration for PostgreSQL
 DATABASES = {
@@ -106,3 +106,5 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
