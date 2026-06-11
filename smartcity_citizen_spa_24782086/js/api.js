@@ -1,5 +1,5 @@
 // Deklarasi URL utama dari Backend Django Rest Framework (DRF)
-const BASE_URL = 'http://127.0.0.1:8000';
+const BASE_URL = 'http://103.151.63.88:8004';
 
 /**
  * Fungsi Pembungkus HTTP Request menggunakan Fetch API secara Global.
