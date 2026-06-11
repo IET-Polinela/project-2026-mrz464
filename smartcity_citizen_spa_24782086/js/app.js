@@ -43,7 +43,7 @@ function setupRegisterForm() {
         }
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/register/', {
+            const response = await fetch('http://103.151.63.88:8004/api/register/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
