@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # TARGET PATH: Mengarah langsung ke folder frontend SPA milikmu
-          path: './server_smartcity/smartcity_citizen_spa_24782086'
+          path: './smartcity_citizen_spa_24782086'
 
       - name: Deploy to GitHub Pages
         id: deployment
