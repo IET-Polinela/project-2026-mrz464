@@ -9,9 +9,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from usermanagement_24782086.api_views import RegisterView
 
 urlpatterns = [
-    # --- 1. RUTE HALAMAN UTAMA & DASHBOARD (DIUBAH LANGSUNG KE LOGIN) ---
-    # Mengalihkan alamat polosan ('') langsung melempar ke halaman /login/
-    path('', RedirectView.as_view(url='/login/', permanent=False)), 
+    # --- 1. RUTE HALAMAN UTAMA & DASHBOARD (DIARAHKAN KE LOGIN DAN DIBERI NAMA 'home') ---
+    # Kita beri nama 'home' di sini agar tag {% url 'home' %} di base.html tidak merusak aplikasi
+    path('', RedirectView.as_view(url='/login/', permanent=False), name='home'),
+    path('', include('main_app.urls')), 
     path('dashboard/', include('dashboard_24782086.urls')), 
     
     # --- 2. RUTE REST API LAB 9 & 10 ---
