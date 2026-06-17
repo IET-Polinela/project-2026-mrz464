@@ -2,16 +2,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from usermanagement_24782086 import views as user_views
-from django.views.generic import RedirectView
 
 # IMPORT UNTUK LAB 10 (JWT & REGISTRASI API)
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from usermanagement_24782086.api_views import RegisterView
 
 urlpatterns = [
-    # --- 1. RUTE HALAMAN UTAMA & DASHBOARD (DIARAHKAN KE LOGIN DAN DIBERI NAMA 'home') ---
-    # Kita beri nama 'home' di sini agar tag {% url 'home' %} di base.html tidak merusak aplikasi
-    path('', RedirectView.as_view(url='/login/', permanent=False), name='home'),
+    # --- 1. RUTE HALAMAN UTAMA & DASHBOARD ---
+    # main_app akan menangani Landing Page / Info Aplikasi asli saat mengakses IP polosan
     path('', include('main_app.urls')), 
     path('dashboard/', include('dashboard_24782086.urls')), 
     
