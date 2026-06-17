@@ -107,4 +107,8 @@ REST_FRAMEWORK = {
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Konfigurasi CSRF Trusted Origins agar Form Login/Register tidak diblokir Django 4.x
+CSRF_TRUSTED_ORIGINS = [
+    'http://103.151.63.88:8004',
+    'https://iet-polinela.github.io',
+]

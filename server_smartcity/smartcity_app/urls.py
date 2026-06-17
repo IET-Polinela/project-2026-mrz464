@@ -2,20 +2,22 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from usermanagement_24782086 import views as user_views
+from django.views.generic import RedirectView
 
 # IMPORT UNTUK LAB 10 (JWT & REGISTRASI API)
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from usermanagement_24782086.api_views import RegisterView
 
 urlpatterns = [
-    # --- 1. RUTE HALAMAN UTAMA & DASHBOARD ---
-    path('', include('main_app.urls')), 
+    # --- 1. RUTE HALAMAN UTAMA & DASHBOARD (DIUBAH LANGSUNG KE LOGIN) ---
+    # Mengalihkan alamat polosan ('') langsung melempar ke halaman /login/
+    path('', RedirectView.as_view(url='/login/', permanent=False)), 
     path('dashboard/', include('dashboard_24782086.urls')), 
     
     # --- 2. RUTE REST API LAB 9 & 10 ---
     path('api/', include('dashboard_24782086.api_urls')),
     
-    # --- 3. ENDPOINT REGISTRASI API CITIZEN (PASTIKAN ADA DI SINI) ---
+    # --- 3. ENDPOINT REGISTRASI API CITIZEN ---
     path('api/register/', RegisterView.as_view(), name='api_register'),
     
     # --- 4. ENDPOINT AUTENTIKASI API JWT ---
