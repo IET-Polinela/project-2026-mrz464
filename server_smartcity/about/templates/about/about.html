@@ -1,183 +1,141 @@
-<!DOCTYPE html>
-<html lang="id">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Tentang Aplikasi | Pasir Sakti Digital</title>
-    <style>
-        /* Skema Warna Kalcer Pasir Sakti */
-        :root {
-            --primary: #2d5a27;
-            --secondary: #f1c40f;
-            --accent: #e67e22;
-            --bg: #f8f9fa;
-        }
+{% block title %}Tentang Aplikasi | Pasir Sakti Digital{% endblock %}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            max-width: 1000px;
-            margin: auto;
-            padding: 30px;
-            color: #333;
-        }
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <!-- Kartu Konten Utama -->
+        <div class="card border-0 shadow rounded-4 overflow-hidden bg-white">
+            <!-- Garis Dekoratif Atas (Hijau Khas Pasir Sakti) -->
+            <div class="bg-smartcity" style="height: 8px;"></div>
 
-        /* Navigasi Konsisten */
-        nav {
-            background: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            margin-bottom: 30px;
-            text-align: center;
-        }
+            <div class="card-body p-4 p-md-5">
+                <!-- Judul Utama (Hero Section) -->
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold text-smartcity mb-2" style="font-size: 2.2rem;">Pasir Sakti Digital: Smart Report
+                    </h2>
+                    <p class="text-muted fst-italic fs-5">Mewujudkan Transparansi dan Percepatan Pembangunan Desa</p>
+                    <hr class="mx-auto my-4 opacity-25" style="width: 150px; border-top: 3px solid #2d5a27;">
+                </div>
 
-        nav a {
-            text-decoration: none;
-            color: var(--primary);
-            font-weight: bold;
-            margin: 0 15px;
-            transition: 0.3s;
-        }
+                <!-- Deskripsi Aplikasi -->
+                <div class="mb-5">
+                    <p class="text-secondary lh-lg fs-6" style="text-align: justify;">
+                        <strong class="text-dark">Pasir Sakti Digital</strong> adalah platform berbasis web yang
+                        dirancang khusus untuk warga Desa Pasir Sakti, Kabupaten Lampung Timur. Aplikasi ini berfungsi
+                        sebagai jembatan komunikasi antara warga dan aparatur desa dalam melaporkan berbagai
+                        permasalahan infrastruktur, sosial, maupun layanan publik.
+                    </p>
+                </div>
 
-        nav a:hover {
-            color: var(--accent);
-        }
+                <!-- Grid Fitur Utama -->
+                <div class="mb-5">
+                    <h4 class="fw-bold text-dark mb-4 d-flex align-items-center">
+                        <span class="me-2 rounded bg-warning"
+                            style="width: 5px; height: 24px; display: inline-block;"></span>
+                        Fitur Utama
+                    </h4>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 p-3"
+                                style="background-color: #2d5a270a; border-left: 4px solid #2d5a27 !important;">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-smartcity d-flex align-items-center mb-3">
+                                        <i class="bi bi-geo-alt-fill text-danger me-2 fs-4"></i> Pelaporan Real-Time
+                                    </h5>
+                                    <p class="text-muted mb-0 small lh-base">Warga dapat mengirimkan laporan masalah
+                                        langsung dari lokasi kejadian dengan detail kategori dan deskripsi lengkap.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 p-3"
+                                style="background-color: #2d5a270a; border-left: 4px solid #2d5a27 !important;">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-smartcity d-flex align-items-center mb-3">
+                                        <i class="bi bi-arrow-repeat text-primary me-2 fs-4"></i> Monitoring Workflow
+                                    </h5>
+                                    <p class="text-muted mb-0 small lh-base">Pantau perkembangan laporan Anda mulai dari
+                                        status <em>Reported, Verified, In Progress,</em> hingga <em>Resolved</em>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        /* Konten About */
-        .content-card {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            border-top: 8px solid var(--primary);
-        }
+                <!-- Alur Kerja Penanganan (Modern Horizontal Steps) -->
+                <div class="mb-5">
+                    <h4 class="fw-bold text-dark mb-4 d-flex align-items-center">
+                        <span class="me-2 rounded bg-warning"
+                            style="width: 5px; height: 24px; display: inline-block;"></span>
+                        Alur Penanganan Masalah (Workflow)
+                    </h4>
+                    <div class="card border-0 shadow-sm rounded-3 p-4"
+                        style="background-color: #fffdf5; border: 1px solid #f1c40f40 !important;">
+                        <div class="row g-3">
+                            <div class="col-md-6 col-lg-3">
+                                <div class="p-2">
+                                    <div class="fw-bold text-dark mb-1"><span class="badge bg-secondary me-2">1</span>
+                                        Reported</div>
+                                    <small class="text-muted d-block">Laporan diterima oleh sistem.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="p-2">
+                                    <div class="fw-bold text-dark mb-1"><span
+                                            class="badge bg-info text-white me-2">2</span> Verified</div>
+                                    <small class="text-muted d-block">Admin desa melakukan verifikasi lapangan terhadap
+                                        validitas laporan.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="p-2">
+                                    <div class="fw-bold text-dark mb-1"><span class="badge bg-primary me-2">3</span> In
+                                        Progress</div>
+                                    <small class="text-muted d-block">Tim terkait sedang melakukan tindakan perbaikan di
+                                        lokasi.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="p-2">
+                                    <div class="fw-bold text-dark mb-1"><span class="badge bg-success me-2">4</span>
+                                        Resolved</div>
+                                    <small class="text-muted d-block">Masalah telah tuntas diselesaikan dan warga
+                                        mendapatkan hasilnya.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        .hero-title {
-            text-align: center;
-            color: var(--primary);
-            margin-bottom: 30px;
-        }
+                <!-- Bagian Visi -->
+                <div class="mb-5">
+                    <h4 class="fw-bold text-dark mb-3 d-flex align-items-center">
+                        <span class="me-2 rounded bg-warning"
+                            style="width: 5px; height: 24px; display: inline-block;"></span>
+                        Visi Kami
+                    </h4>
+                    <p class="text-secondary lh-lg fs-6 border-start border-3 ps-3"
+                        style="border-color: #2d5a27 !important;">
+                        Menjadikan Desa Pasir Sakti sebagai pelopor Desa Digital di Lampung Timur yang mengedepankan
+                        asas gotong royong melalui teknologi informasi yang terbuka dan akuntabel.
+                    </p>
+                </div>
 
-        .hero-title h1 {
-            margin: 0;
-            font-size: 2em;
-        }
-
-        .hero-title p {
-            color: #888;
-            font-style: italic;
-        }
-
-        .section-title {
-            color: var(--primary);
-            border-left: 5px solid var(--secondary);
-            padding-left: 15px;
-            margin: 30px 0 15px;
-            font-size: 1.2em;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .feature-item {
-            background: #f1f8f1;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #e0ede0;
-        }
-
-        .feature-item h4 {
-            margin-top: 0;
-            color: var(--primary);
-        }
-
-        .workflow-steps {
-            background: #fff8e1;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #ffecb3;
-            line-height: 1.8;
-        }
-
-        .btn-back {
-            display: block;
-            width: fit-content;
-            margin: 40px auto 0;
-            text-decoration: none;
-            color: #000;
-            background: var(--secondary);
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .btn-back:hover {
-            background: #d4ac0d;
-            transform: scale(1.05);
-        }
-    </style>
-</head>
-
-<body>
-    <nav>
-        <a href="{% url 'report_list' %}">BERANDA</a>
-        <a href="/about/">TENTANG APLIKASI</a>
-        <a href="/contacts/">KONTAK</a>
-    </nav>
-
-    <div class="content-card">
-        <div class="hero-title">
-            <h1>Pasir Sakti Digital: Smart Report</h1>
-            <p>Mewujudkan Transparansi dan Percepatan Pembangunan Desa</p>
-        </div>
-
-        <p>
-            <strong>Pasir Sakti Digital</strong> adalah platform berbasis web yang dirancang khusus untuk warga Desa
-            Pasir Sakti, Kabupaten Lampung Timur.
-            Aplikasi ini berfungsi sebagai jembatan komunikasi antara warga dan aparatur desa dalam melaporkan berbagai
-            permasalahan infrastruktur, sosial, maupun layanan publik.
-        </p>
-
-        <div class="section-title">Fitur Utama</div>
-        <div class="feature-grid">
-            <div class="feature-item">
-                <h4>📍 Pelaporan Real-Time</h4>
-                <p>Warga dapat mengirimkan laporan masalah langsung dari lokasi kejadian dengan detail kategori dan
-                    deskripsi lengkap.</p>
-            </div>
-            <div class="feature-item">
-                <h4>🔄 Monitoring Workflow</h4>
-                <p>Pantau perkembangan laporan Anda mulai dari status <em>Reported, Verified, In Progress,</em> hingga
-                    <em>Resolved</em>.</p>
+                <!-- Tombol CTA bawah -->
+                <div class="text-center mt-4">
+                    <a href="{% url 'report_list' %}"
+                        class="btn btn-smartcity btn-lg px-5 py-3 rounded-pill shadow-sm text-dark fw-bold">
+                        <i class="bi bi-megaphone-fill me-2"></i> Mulai Lapor Sekarang!
+                    </a>
+                </div>
             </div>
         </div>
 
-        <div class="section-title">Alur Penanganan Masalah (Workflow)</div>
-        <div class="workflow-steps">
-            <strong>1. Reported:</strong> Laporan diterima oleh sistem.<br>
-            <strong>2. Verified:</strong> Admin desa melakukan verifikasi lapangan terhadap validitas laporan.<br>
-            <strong>3. In Progress:</strong> Tim terkait sedang melakukan tindakan perbaikan di lokasi.<br>
-            <strong>4. Resolved:</strong> Masalah telah tuntas diselesaikan dan warga mendapatkan hasilnya.
-        </div>
-
-        <div class="section-title">Visi Kami</div>
-        <p>
-            Menjadikan Desa Pasir Sakti sebagai pelopor Desa Digital di Lampung Timur yang mengedepankan asas gotong
-            royong melalui teknologi informasi yang terbuka dan akuntabel.
-        </p>
-
-        <a href="{% url 'report_list' %}" class="btn-back">Mulai Lapor Sekarang!</a>
+        <!-- Catatan Kaki Aplikasi -->
+        <p class="text-center text-muted small mt-4">© 2026 Pemerintah Desa Pasir Sakti | Dikembangkan oleh Mahasiswa
+            Polinela</p>
     </div>
-
-    <footer style="margin-top: 40px; text-align: center; color: #7f8c8d; font-size: 12px;">
-        <p>&copy; 2026 Pemerintah Desa Pasir Sakti | Dikembangkan oleh Mahasiswa Polinela</p>
-    </footer>
-</body>
-
-</html>
+</div>
+{% endblock %}

@@ -1,185 +1,108 @@
-<!DOCTYPE html>
-<html lang="id">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Kontak Layanan | Pasir Sakti Digital</title>
-    <style>
-        /* Skema Warna Kalcer Pasir Sakti - Konsisten dengan Home & About */
-        :root {
-            --primary: #2d5a27;
-            /* Hijau Tua */
-            --secondary: #f1c40f;
-            /* Kuning Emas */
-            --accent: #e67e22;
-            /* Oranye */
-            --bg: #f8f9fa;
-        }
+{% block title %}Kontak Layanan | Pasir Sakti Digital{% endblock %}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            max-width: 1000px;
-            margin: auto;
-            padding: 30px;
-            color: #333;
-        }
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card border-0 shadow rounded-4 overflow-hidden bg-white">
+            <div class="bg-smartcity" style="height: 8px;"></div>
 
-        /* Navigasi */
-        nav {
-            background: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            margin-bottom: 30px;
-            text-align: center;
-        }
+            <div class="card-body p-4 p-md-5">
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold text-smartcity mb-2" style="font-size: 2.2rem; letter-spacing: 0.5px;">PUSAT
+                        BANTUAN DESA</h2>
+                    <p class="text-muted fs-6">Saluran resmi komunikasi dan pengaduan warga Desa Pasir Sakti, Lampung
+                        Timur.</p>
+                    <hr class="mx-auto my-4 opacity-25" style="width: 150px; border-top: 3px solid #2d5a27;">
+                </div>
 
-        nav a {
-            text-decoration: none;
-            color: var(--primary);
-            font-weight: bold;
-            margin: 0 15px;
-            transition: 0.3s;
-        }
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm rounded-3 h-100 p-2"
+                            style="background-color: #2d5a270a; border: 1px solid #eef3ed !important;">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="bg-success text-white rounded p-3 me-3 shadow-sm d-flex align-items-center justify-content-center"
+                                    style="width: 55px; height: 55px;">
+                                    <i class="bi bi-whatsapp fs-3"></i>
+                                </div>
+                                <div>
+                                    <span class="text-muted d-block small fw-bold text-uppercase mb-1"
+                                        style="font-size: 0.75rem; letter-spacing: 0.5px;">WhatsApp Aduan</span>
+                                    <h5 class="fw-bold text-dark mb-0">0831-3098-1422</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-        nav a:hover {
-            color: var(--accent);
-        }
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm rounded-3 h-100 p-2"
+                            style="background-color: #2d5a270a; border: 1px solid #eef3ed !important;">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="bg-primary text-white rounded p-3 me-3 shadow-sm d-flex align-items-center justify-content-center"
+                                    style="width: 55px; height: 55px; background-color: #0d6efd !important;">
+                                    <i class="bi bi-envelope-fill fs-3"></i>
+                                </div>
+                                <div>
+                                    <span class="text-muted d-block small fw-bold text-uppercase mb-1"
+                                        style="font-size: 0.75rem; letter-spacing: 0.5px;">Email Pelayanan</span>
+                                    <h5 class="fw-bold text-dark mb-0" style="font-size: 1.15rem;">
+                                        layanan@pasirsakti.desa.id</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-        /* Card Kontak */
-        .contact-card {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            border-top: 8px solid var(--primary);
-            /* Menggunakan Hijau sesuai Home */
-        }
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm rounded-3 h-100 p-2"
+                            style="background-color: #2d5a270a; border: 1px solid #eef3ed !important;">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="bg-danger text-white rounded p-3 me-3 shadow-sm d-flex align-items-center justify-content-center"
+                                    style="width: 55px; height: 55px; background-color: #dc3545 !important;">
+                                    <i class="bi bi-geo-alt-fill fs-3"></i>
+                                </div>
+                                <div>
+                                    <span class="text-muted d-block small fw-bold text-uppercase mb-1"
+                                        style="font-size: 0.75rem; letter-spacing: 0.5px;">Lokasi Kantor</span>
+                                    <h5 class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">Kec. Pasir Sakti,
+                                        Lampung Timur</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-        h1 {
-            color: var(--primary);
-            text-align: center;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm rounded-3 h-100 p-2"
+                            style="background-color: #2d5a270a; border: 1px solid #eef3ed !important;">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="bg-warning text-dark rounded p-3 me-3 shadow-sm d-flex align-items-center justify-content-center"
+                                    style="width: 55px; height: 55px; background-color: #ffc107 !important;">
+                                    <i class="bi bi-clock-fill fs-3"></i>
+                                </div>
+                                <div>
+                                    <span class="text-muted d-block small fw-bold text-uppercase mb-1"
+                                        style="font-size: 0.75rem; letter-spacing: 0.5px;">Waktu Pelayanan</span>
+                                    <h5 class="fw-bold text-dark mb-0">08:00 - 15:30 WIB</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-        }
+                <div class="text-center pt-4 border-top border-light">
+                    <p class="text-muted small mb-4">Aplikasi ini dikembangkan untuk mendukung transparansi publik di
+                        lingkungan Kabupaten Lampung Timur.</p>
 
-        /* Grid Kontak Modern */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .contact-method {
-            padding: 20px;
-            background: #f1f8f1;
-            /* Hijau sangat muda agar selaras */
-            border-radius: 12px;
-            border: 1px solid #e0ede0;
-            transition: 0.3s;
-        }
-
-        .contact-method:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-
-        .label {
-            font-weight: bold;
-            color: var(--primary);
-            display: block;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 1px;
-        }
-
-        .value {
-            font-size: 1.1em;
-            color: #2d3436;
-            font-weight: 600;
-        }
-
-        /* Tombol Sesuai Warna Home */
-        .btn-back {
-            display: block;
-            width: fit-content;
-            margin: 40px auto 0;
-            text-decoration: none;
-            color: #000;
-            background: var(--secondary);
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .btn-back:hover {
-            background: #d4ac0d;
-            transform: scale(1.05);
-        }
-
-        .footer-note {
-            margin-top: 40px;
-            font-size: 0.85em;
-            color: #7f8c8d;
-            text-align: center;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-        }
-    </style>
-</head>
-
-<body>
-    <nav>
-        <a href="{% url 'report_list' %}">BERANDA</a>
-        <a href="/about/">TENTANG APLIKASI</a>
-        <a href="/contacts/">KONTAK</a>
-    </nav>
-
-    <div class="contact-card">
-        <h1>Pusat Bantuan Desa</h1>
-        <p class="subtitle">Saluran resmi komunikasi warga Desa Pasir Sakti, Lampung Timur.</p>
-
-        <div class="contact-grid">
-            <div class="contact-method">
-                <span class="label">📞 WhatsApp Aduan:</span>
-                <span class="value">0831-3098-1422</span>
-            </div>
-
-            <div class="contact-method">
-                <span class="label">✉️ Email Pelayanan:</span>
-                <span class="value">layanan@pasirsakti.desa.id</span>
-            </div>
-
-            <div class="contact-method">
-                <span class="label">🏢 Lokasi Kantor:</span>
-                <span class="value">Kec. Pasir Sakti, Lampung Timur</span>
-            </div>
-
-            <div class="contact-method">
-                <span class="label">⏰ Waktu Pelayanan:</span>
-                <span class="value">08:00 - 15:30 WIB</span>
+                    <a href="{% url 'report_list' %}" class="btn btn-smartcity px-4 py-2.5 fw-bold rounded shadow-sm"
+                        style="font-size: 0.95rem;">
+                        <i class="bi bi-arrow-left me-2"></i> Kembali ke Dashboard
+                    </a>
+                </div>
             </div>
         </div>
 
-        <div class="footer-note">
-            Aplikasi ini dikembangkan untuk mendukung transparansi publik di lingkungan Kabupaten Lampung Timur.
-        </div>
-
-        <a href="{% url 'report_list' %}" class="btn-back">← Kembali ke Dashboard</a>
+        <p class="text-center text-muted small mt-4">© 2026 Pemerintah Desa Pasir Sakti | Dikembangkan oleh Rezaldi
+            Zazky - Polinela</p>
     </div>
-
-    <footer style="margin-top: 40px; text-align: center; color: #7f8c8d; font-size: 12px;">
-        <p>&copy; 2026 Pemerintah Desa Pasir Sakti | Dikembangkan oleh Rezaldi Zazky - Polinela</p>
-    </footer>
-</body>
-
-</html>
+</div>
+{% endblock %}
