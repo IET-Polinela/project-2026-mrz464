@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from usermanagement_24782086 import views as user_views
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from django_scalar.views import scalar_viewer
 
 # IMPORT UNTUK LAB 10 (JWT & REGISTRASI API)
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -30,4 +32,9 @@ urlpatterns = [
     path("login/", auth_views.LoginView.as_view(template_name="usermanagement_24782086/login.html"), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("register/", user_views.register_view, name="register"),
+
+    # 3 BARIS API DOCS BARU:
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/docs/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/docs/scalar/', scalar_viewer, name='scalar-ui'),
 ]
