@@ -86,10 +86,15 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
+
+# --- KONFIGURASI STATIC FILES ---
 STATIC_URL = "static/"
+# Jalur folder untuk menampung seluruh static files saat Production di Server
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# 2. Konfigurasi AUTH_USER_MODEL (Instruksi Lab 6 Poin 1) [cite: 21]
+# 2. Konfigurasi AUTH_USER_MODEL (Instruksi Lab 6 Poin 1)
 # Memberitahu Django untuk menggunakan model User dari app usermanagement kamu.
 AUTH_USER_MODEL = 'usermanagement_24782086.User'
 
