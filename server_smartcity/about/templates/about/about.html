@@ -9,13 +9,13 @@
     <div class="position-relative text-center p-5 bg-hero-gradient border-bottom border-light">
         <div class="py-3">
             <div class="mb-3 animate-fade-in">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Lambang_Kabupaten_Lampung_Timur.png"
-                    alt="Logo Lampung Timur" style="height: 90px; width: auto; object-fit: contain;"
-                    class="drop-shadow-custom">
+                <img src="{% static 'img/logo_lamtim.png' %}" alt="Logo Lampung Timur"
+                    style="height: 95px; width: auto; object-fit: contain;" class="drop-shadow-custom">
             </div>
             <span
-                class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold text-uppercase tracking-wider small mb-3">Portal
-                Informasi Resmi</span>
+                class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold text-uppercase tracking-wider small mb-3">
+                Portal Informasi Resmi
+            </span>
             <h1 class="display-5 text-smartcity fw-extrabold mb-1 font-heading">Pasir Sakti Digital</h1>
             <h5 class="text-success fw-bold font-heading mb-0">Smart Report & Regional Governance</h5>
         </div>
@@ -33,7 +33,7 @@
                 <p class="text-secondary lh-lg mb-4 text-justify fs-6" style="color: #475569 !important;">
                     Platform ini bertindak sebagai infrastruktur digital cerdas penunjang transparansi yang
                     menghubungkan warga langsung dengan jajaran aparatur pemerintahan desa. Melalui digitalisasi
-                    birokrasi ini, setiap aduan infastruktur dan pelayanan publik dapat dimonitor secara berkala guna
+                    birokrasi ini, setiap aduan infrastruktur dan pelayanan publik dapat dimonitor secara berkala guna
                     melahirkan penanganan yang responsif dan akurat.
                 </p>
 
@@ -53,7 +53,7 @@
                 <div class="card border-0 shadow-sm rounded-4 overflow-hidden p-2 bg-light border border-light-subtle">
                     <div class="position-relative rounded-3 overflow-hidden" style="height: 350px;">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63554.76797171435!2d105.713384!3d-5.402047!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e411bbf5326ab1d%3A0x4037567cf14e7a0!2sPasir%20Sakti%2C%20Kabupaten%20Lampung%20Timur%2C%20Lampung!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid"
+                            src="https://maps.google.com/maps?q=Pasir%20Sakti,%20Lampung%20Timur&t=&z=13&ie=UTF8&iwloc=&output=embed"
                             width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
@@ -176,7 +176,6 @@
         text-align: justify;
     }
 
-    /* Efek shadow khusus untuk Lambang Daerah */
     .drop-shadow-custom {
         filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.12));
     }
@@ -227,7 +226,6 @@
         font-size: 1.1rem;
     }
 
-    /* Soft Color Management Palettes */
     .bg-success-subtle {
         background-color: #dcfce7 !important;
     }
