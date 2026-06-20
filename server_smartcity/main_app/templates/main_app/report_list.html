@@ -3,134 +3,257 @@
 {% block title %}Dashboard - Pasir Sakti Smart City{% endblock %}
 
 {% block content %}
+<!-- 1. Breadcrumb Navigasi Minimalis -->
 <nav aria-label="breadcrumb" class="mb-4">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'report_list' %}" class="text-decoration-none text-smartcity"><i
-                    class="bi bi-house-door"></i> Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Dashboard Laporan</li>
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+            <a href="{% url 'report_list' %}" class="text-decoration-none text-smartcity fw-medium">
+                <i class="bi bi-house-door-fill me-1"></i> Home
+            </a>
+        </li>
+        <li class="breadcrumb-item active text-secondary" aria-current="page">Dashboard Laporan</li>
     </ol>
 </nav>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="text-smartcity fw-bold mb-0">Daftar Laporan Infrastruktur</h3>
-    <a href="{% url 'report_add' %}" class="btn btn-smartcity shadow-sm">
-        <i class="bi bi-plus-circle"></i> Tambah Laporan
+<!-- 2. Header Konten Utama -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="text-smartcity fw-bold mb-1">Daftar Laporan Infrastruktur</h3>
+        <p class="text-muted small mb-0">Pantau dan kelola laporan fasilitas publik warga secara real-time.</p>
+    </div>
+    <a href="{% url 'report_add' %}" class="btn btn-smartcity shadow-sm px-3 py-2 rounded-3 fw-bold transition-all">
+        <i class="bi bi-plus-lg me-1"></i> Tambah Laporan
     </a>
 </div>
 
-<div class="card shadow-sm mb-4 border-0">
-    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center border-0">
-        <span class="fw-bold"><i class="bi bi-search me-2"></i>Live Search Cepat</span>
-        <input type="text" id="searchInput" class="form-control form-control-sm w-25 border-0 shadow-none"
-            placeholder="Cari judul/lokasi...">
-    </div>
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-hover table-striped align-middle mb-0">
-                <tbody id="searchResults">
-                    <tr id="searchPrompt">
-                        <td class="text-center text-muted py-4">
-                            <i class="bi bi-keyboard fs-4 d-block mb-2"></i>
-                            Mulai mengetik untuk memfilter laporan secara instan...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+<!-- 3. Rombak Total: Live Search Sleek & Modern View -->
+<div class="card border-0 shadow-sm rounded-3 mb-4 overflow-hidden">
+    <div class="p-3 bg-white border-bottom border-light">
+        <div class="position-relative">
+            <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-muted">
+                <i class="bi bi-search fs-6"></i>
+            </span>
+            <input type="text" id="searchInput"
+                class="form-control form-control-lg ps-5 border border-light-subtle rounded-3 fs-6 shadow-none transition-all input-search-custom"
+                placeholder="Cari judul laporan, lokasi spesifik, atau kategori aduan secara cepat...">
         </div>
+    </div>
+
+    <!-- Wadah Hasil Live Search Transparan -->
+    <div class="table-responsive bg-white">
+        <table class="table table-hover align-middle mb-0">
+            <tbody id="searchResults">
+                <tr id="searchPrompt">
+                    <td class="text-center text-muted py-4">
+                        <i class="bi bi-keyboard text-secondary fs-4 d-block mb-1"></i>
+                        <small class="fw-medium">Mulai mengetik untuk memfilter laporan secara instan...</small>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
+<!-- 4. Wadah Pop-up Modal Detail (Bawaan Tetap Dipertahankan) -->
 <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow" id="modalContent"></div>
+        <div class="modal-content border-0 shadow-lg rounded-3" id="modalContent"></div>
     </div>
 </div>
-<div class="card shadow-sm border-0">
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th class="ps-4">Judul Laporan</th>
-                        <th>Lokasi Spesifik</th>
-                        <th>Status</th>
-                        <th class="text-center">Aksi Workflow</th>
-                        <th class="text-center pe-4">Kelola Data</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for report in reports %}
-                    <tr>
-                        <td class="ps-4 fw-semibold">
-                            <a href="{% url 'report_detail' report.pk %}" class="text-decoration-none text-dark">
-                                {{ report.title }}
-                            </a>
-                        </td>
-                        <td class="text-muted"><i class="bi bi-geo-alt"></i> {{ report.location }}</td>
 
-                        <td>
+<!-- 5. Rombak Total: Floating Card Table Utama -->
+<div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-5">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0" style="background-color: #ffffff;">
+            <thead class="bg-light-subtle text-secondary border-bottom border-light">
+                <tr>
+                    <th class="ps-4 py-3 fw-bold text-uppercase text-secondary tracking-wider fs-7">Judul Laporan</th>
+                    <th class="py-3 fw-bold text-uppercase text-secondary tracking-wider fs-7">Lokasi Spesifik</th>
+                    <th class="py-3 fw-bold text-uppercase text-secondary tracking-wider fs-7">Status</th>
+                    <th class="py-3 fw-bold text-uppercase text-secondary tracking-wider fs-7 text-center">Aksi Workflow
+                    </th>
+                    <th class="pe-4 py-3 fw-bold text-uppercase text-secondary tracking-wider fs-7 text-end">Kelola Data
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr class="border-bottom border-light row-table-custom">
+                    <!-- Judul Laporan -->
+                    <td class="ps-4 py-3">
+                        <a href="{% url 'report_detail' report.pk %}"
+                            class="text-decoration-none text-dark fw-semibold title-link-custom">
+                            {{ report.title }}
+                        </a>
+                    </td>
+
+                    <!-- Lokasi Spesifik -->
+                    <td class="py-3 text-secondary small">
+                        <i class="bi bi-geo-alt-fill text-danger me-1"></i> {{ report.location }}
+                    </td>
+
+                    <!-- Status Berwarna Soft Pastel Transparan -->
+                    <td class="py-3">
+                        {% if report.status == 'REPORTED' %}
+                        <span
+                            class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill fw-bold fs-7">Reported</span>
+                        {% elif report.status == 'VERIFIED' %}
+                        <span
+                            class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold fs-7">Verified</span>
+                        {% elif report.status == 'IN_PROGRESS' %}
+                        <span class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill fw-bold fs-7">In
+                            Progress</span>
+                        {% elif report.status == 'RESOLVED' %}
+                        <span
+                            class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold fs-7">Resolved</span>
+                        {% endif %}
+                    </td>
+
+                    <!-- Tombol Workflow Aksi -->
+                    <td class="py-3 text-center">
+                        <form action="{% url 'report_status' report.pk %}" method="POST" class="d-inline">
+                            {% csrf_token %}
                             {% if report.status == 'REPORTED' %}
-                            <span class="badge bg-secondary">Reported</span>
+                            <input type="hidden" name="status" value="VERIFIED">
+                            <button type="submit" class="btn btn-sm btn-primary px-3 rounded-2 fw-bold shadow-sm"
+                                onclick="showLoading(this)">Verifikasi</button>
                             {% elif report.status == 'VERIFIED' %}
-                            <span class="badge bg-primary">Verified</span>
+                            <input type="hidden" name="status" value="IN_PROGRESS">
+                            <button type="submit"
+                                class="btn btn-sm btn-warning text-white px-3 rounded-2 fw-bold shadow-sm"
+                                onclick="showLoading(this)">Proses</button>
                             {% elif report.status == 'IN_PROGRESS' %}
-                            <span class="badge bg-warning text-dark">In Progress</span>
-                            {% elif report.status == 'RESOLVED' %}
-                            <span class="badge bg-success">Resolved</span>
+                            <input type="hidden" name="status" value="RESOLVED">
+                            <button type="submit" class="btn btn-sm btn-success px-3 rounded-2 fw-bold shadow-sm"
+                                onclick="showLoading(this)">Selesaikan</button>
+                            {% else %}
+                            <span class="text-success fw-bold small"><i class="bi bi-check2-all me-1"></i> Tuntas</span>
                             {% endif %}
-                        </td>
+                        </form>
+                    </td>
 
-                        <td class="text-center">
-                            <form action="{% url 'report_status' report.pk %}" method="POST" class="d-inline">
-                                {% csrf_token %}
-                                {% if report.status == 'REPORTED' %}
-                                <input type="hidden" name="status" value="VERIFIED">
-                                <button type="submit" class="btn btn-sm btn-primary"
-                                    onclick="showLoading(this)">Verifikasi</button>
-                                {% elif report.status == 'VERIFIED' %}
-                                <input type="hidden" name="status" value="IN_PROGRESS">
-                                <button type="submit" class="btn btn-sm btn-warning text-dark"
-                                    onclick="showLoading(this)">Proses</button>
-                                {% elif report.status == 'IN_PROGRESS' %}
-                                <input type="hidden" name="status" value="RESOLVED">
-                                <button type="submit" class="btn btn-sm btn-success"
-                                    onclick="showLoading(this)">Selesaikan</button>
-                                {% else %}
-                                <span class="text-success fw-bold"><i class="bi bi-check2-all"></i> Tuntas</span>
-                                {% endif %}
-                            </form>
-                        </td>
-
-                        <td class="text-center pe-4">
-                            <a href="{% url 'report_detail' report.pk %}" class="btn btn-sm btn-outline-info"
-                                title="Detail"><i class="bi bi-eye"></i></a>
-
-                            <a href="{% url 'report_edit' report.pk %}" class="btn btn-sm btn-outline-secondary"
-                                title="Edit"><i class="bi bi-pencil"></i></a>
-                            <a href="{% url 'report_delete' report.pk %}" class="btn btn-sm btn-outline-danger"
-                                title="Hapus"><i class="bi bi-trash"></i></a>
-                        </td>
-                    </tr>
-
-                    {% empty %}
-                    <tr>
-                        <td colspan="5" class="text-center py-5">
-                            <div class="text-muted mb-3">
-                                <i class="bi bi-inbox fs-1"></i>
-                                <p class="mt-2">Belum ada laporan yang masuk.</p>
-                            </div>
-
-                            <a href="{% url 'report_add' %}" class="btn btn-sm btn-outline-primary">Tambah laporan
-                                pertama Anda</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                    <!-- Tombol Kelola Data Clean Minimalis (Tanpa Border Kotak Kaku) -->
+                    <td class="pe-4 py-3 text-end">
+                        <div class="d-inline-flex gap-1">
+                            <a href="{% url 'report_detail' report.pk %}"
+                                class="text-info p-2 rounded-circle hover-bg-custom" title="Detail"><i
+                                    class="bi bi-eye fs-5"></i></a>
+                            <a href="{% url 'report_edit' report.pk %}"
+                                class="text-warning p-2 rounded-circle hover-bg-custom" title="Edit"><i
+                                    class="bi bi-pencil fs-5"></i></a>
+                            <a href="{% url 'report_delete' report.pk %}"
+                                class="text-danger p-2 rounded-circle hover-bg-custom" title="Hapus"><i
+                                    class="bi bi-trash fs-5"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center py-5">
+                        <div class="text-muted mb-3">
+                            <i class="bi bi-inbox text-secondary fs-1 d-block mb-2"></i>
+                            <p class="mb-0 small fw-medium">Belum ada data laporan infrastruktur masuk.</p>
+                        </div>
+                        <a href="{% url 'report_add' %}"
+                            class="btn btn-sm btn-outline-primary rounded-3 px-3 fw-bold">Tambah Laporan Pertama</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 
+<!-- Custom CSS Premium Layout Generator -->
+<style>
+    .fs-7 {
+        font-size: 0.785rem !important;
+    }
+
+    .tracking-wider {
+        letter-spacing: 0.5px;
+    }
+
+    /* Mengubah garis pembatas baris agar samar tipis */
+    .table> :not(caption)>*>* {
+        border-bottom-color: rgba(0, 0, 0, 0.035) !important;
+        box-shadow: none !important;
+    }
+
+    /* Efek hover dinamis baris tabel */
+    .row-table-custom {
+        transition: all 0.2s ease-in-out;
+    }
+
+    .row-table-custom:hover {
+        background-color: #f8fafc !important;
+        transform: translateY(-0.5px);
+    }
+
+    /* Input search focus border indicator */
+    .input-search-custom:focus {
+        border-color: #2e7d32 !important;
+        background-color: #fdfdfd;
+    }
+
+    /* Transisi judul link */
+    .title-link-custom {
+        transition: color 0.15s ease;
+    }
+
+    .title-link-custom:hover {
+        color: #2e7d32 !important;
+    }
+
+    /* Warna Kustom Soft Pastel Transparan Untuk Badge Status */
+    .bg-secondary-subtle {
+        background-color: #f1f5f9 !important;
+    }
+
+    .text-secondary {
+        color: #475569 !important;
+    }
+
+    .bg-primary-subtle {
+        background-color: #e0f2fe !important;
+    }
+
+    .text-primary {
+        color: #0284c7 !important;
+    }
+
+    .bg-warning-subtle {
+        background-color: #fef3c7 !important;
+    }
+
+    .text-warning {
+        color: #d97706 !important;
+    }
+
+    .bg-success-subtle {
+        background-color: #dcfce7 !important;
+    }
+
+    .text-success {
+        color: #16a34a !important;
+    }
+
+    /* Desain lingkaran hover ikon kelola data */
+    .hover-bg-custom {
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+    }
+
+    .hover-bg-custom:hover {
+        background-color: #f1f5f9;
+    }
+</style>
+
+<!-- Script Logic Bawaan (Tetap Dipertahankan Secara Penuh) -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // --- 1. Fitur Live Search ---
@@ -143,7 +266,7 @@
             const query = this.value;
 
             if (query.length > 0) {
-                resultsTable.innerHTML = '<tr><td class="text-center py-4"><div class="spinner-border text-dark spinner-border-sm"></div> Mencari data...</td></tr>';
+                resultsTable.innerHTML = '<tr><td class="text-center py-4"><div class="spinner-border text-success spinner-border-sm"></div> Mencari data...</td></tr>';
             }
 
             timeout = setTimeout(() => {
@@ -158,7 +281,6 @@
                     return;
                 }
 
-                // Memanggil API dari jalur dashboard
                 fetch(`/dashboard/api/search/?q=${query}`)
                     .then(res => res.json())
                     .then(data => {
@@ -169,13 +291,23 @@
                         }
 
                         data.results.forEach(r => {
+                            // Penyesuaian agar tampilan live search ikut menggunakan gaya soft badge modern
+                            let softBadge = `<span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill fw-bold fs-7">${r.status}</span>`;
+                            if (r.status.toUpperCase() === 'VERIFIED') {
+                                softBadge = `<span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold fs-7">Verified</span>`;
+                            } else if (r.status.toUpperCase() === 'IN_PROGRESS' || r.status.toUpperCase() === 'IN PROGRESS') {
+                                softBadge = `<span class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill fw-bold fs-7">In Progress</span>`;
+                            } else if (r.status.toUpperCase() === 'RESOLVED') {
+                                softBadge = `<span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold fs-7">Resolved</span>`;
+                            }
+
                             resultsTable.innerHTML += `
-                            <tr>
+                            <tr class="row-table-custom">
                                 <td class="ps-4 fw-bold text-dark w-50">${r.title}</td>
-                                <td><span class="badge bg-light text-dark border">${r.category}</span></td>
-                                <td><span class="badge bg-secondary">${r.status}</span></td>
+                                <td><span class="badge bg-light text-dark border px-2 py-1.5">${r.category}</span></td>
+                                <td>${softBadge}</td>
                                 <td class="text-center pe-4">
-                                    <button class="btn btn-sm btn-outline-primary btn-detail rounded-pill px-3" data-id="${r.id}">
+                                    <button class="btn btn-sm btn-outline-success btn-detail rounded-pill px-3 fw-bold" data-id="${r.id}">
                                         <i class="bi bi-eye"></i> Detail
                                     </button>
                                 </td>
@@ -192,7 +324,7 @@
             const btn = e.target.closest('.btn-detail');
             if (btn) {
                 const id = btn.getAttribute('data-id');
-                document.getElementById('modalContent').innerHTML = '<div class="modal-body text-center py-5"><div class="spinner-border text-primary"></div></div>';
+                document.getElementById('modalContent').innerHTML = '<div class="modal-body text-center py-5"><div class="spinner-border text-success"></div></div>';
                 myModal.show();
 
                 fetch(`/dashboard/api/detail/${id}/`)
@@ -200,20 +332,20 @@
                     .then(data => {
                         if (data.error) return;
                         document.getElementById('modalContent').innerHTML = `
-                        <div class="modal-header bg-light border-0">
-                            <h5 class="modal-title fw-bold">${data.title}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <div class="modal-header bg-light border-0 px-4 pt-4">
+                            <h5 class="modal-title fw-bold text-dark">${data.title}</h5>
+                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
                         </div>
-                        <div class="modal-body">
-                            <p class="mb-3 text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> ${data.location}</p>
-                            <p class="mb-2"><span class="badge bg-light text-dark border px-2 py-1"><i class="bi bi-tag-fill text-warning me-1"></i> ${data.category}</span></p>
-                            <div class="bg-light p-3 rounded mt-3">
-                                <p class="mb-0 text-dark"><strong>Deskripsi:</strong><br>${data.description}</p>
+                        <div class="modal-body px-4">
+                            <p class="mb-3 text-secondary small"><i class="bi bi-geo-alt-fill text-danger me-1"></i> ${data.location}</p>
+                            <p class="mb-2"><span class="badge bg-light text-dark border px-2 py-1.5 fw-semibold"><i class="bi bi-tag-fill text-warning me-1"></i> ${data.category}</span></p>
+                            <div class="bg-light p-3 rounded-3 mt-3 border border-light-subtle">
+                                <p class="mb-0 text-dark small"><strong>Deskripsi Laporan:</strong><br>${data.description}</p>
                             </div>
                         </div>
-                        <div class="modal-footer border-0 d-flex justify-content-between bg-light">
-                            <span>Status: <span class="badge bg-success shadow-sm px-3 py-2">${data.status}</span></span>
-                            <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
+                        <div class="modal-footer border-0 d-flex justify-content-between bg-light px-4 py-3 mt-3">
+                            <span class="small fw-semibold text-secondary">Status: <span class="badge bg-success shadow-sm px-3 py-2 ms-1 rounded-pill">${data.status}</span></span>
+                            <button type="button" class="btn btn-secondary btn-sm rounded-3 px-3 fw-bold" data-bs-dismiss="modal">Tutup</button>
                         </div>
                     `;
                     });
