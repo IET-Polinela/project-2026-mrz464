@@ -3,68 +3,221 @@
 {% block title %}Login - Smart City Portal{% endblock %}
 
 {% block content %}
-<div class="d-flex align-items-center justify-content-center"
-    style="min-height: 70vh; background: radial-gradient(circle at top right, rgba(45, 90, 39, 0.08), transparent 50%);">
-    <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white w-100" style="max-width: 440px;">
+<!-- Wrapper Utama dengan Efek Mesh Gradient Modern (Menggantikan area abu-abu yang kamu coret) -->
+<div class="auth-bg-wrapper d-flex align-items-center justify-content-center position-relative overflow-hidden w-100 rounded-4 shadow-sm"
+    style="min-height: 80vh;">
 
-        <div class="bg-smartcity py-4 text-center text-white position-relative"
-            style="background-color: #2d5a27 !important;">
-            <i class="bi bi-shield-lock-fill text-warning mb-2" style="font-size: 2.5rem;"></i>
-            <h4 class="mb-0 fw-bold" style="letter-spacing: 0.5px; font-family: sans-serif;">LOGIN SMART CITY</h4>
-            <p class="text-white-50 small mb-0">Silakan masuk untuk mengakses sistem layanan</p>
-        </div>
+    <!-- Elemen Dekoratif Pendaran Cahaya (Modern Blurred Orbs) untuk mengisi area kosong -->
+    <div class="orb orb-green"></div>
+    <div class="orb orb-gold"></div>
+    <div class="orb orb-subtle-mesh"></div>
 
-        <div class="card-body p-4 p-md-5">
-            {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm small rounded-3 mb-4"
-                role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <!-- Container Kartu Login (Dipastikan di atas layer dekoratif) -->
+    <div class="container position-relative z-index-2 py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 d-flex justify-content-center">
+
+                <!-- Kartu Login Gaya Modern UI -->
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white w-100 card-auth-custom animate-fade-up"
+                    style="max-width: 440px;">
+
+                    <!-- Header Kartu: Hijau Premium Smart City -->
+                    <div class="py-4 text-center text-white position-relative card-header-custom"
+                        style="background: linear-gradient(135deg, #2d5a27 0%, #1e3d1a 100%) !important;">
+                        <div class="mb-2">
+                            <div class="icon-shield-wrapper mx-auto shadow-sm">
+                                <i class="bi bi-shield-lock-fill text-warning" style="font-size: 2.3rem;"></i>
+                            </div>
+                        </div>
+                        <h4 class="mb-0 fw-bold tracking-wide font-heading" style="letter-spacing: 1px;">LOG IN SMART
+                            CITY</h4>
+                        <p class="text-white-50 small mb-0">Silakan masuk untuk mengakses sistem layanan</p>
+                    </div>
+
+                    <!-- Isi Konten Kartu -->
+                    <div class="card-body p-4 p-md-5">
+
+                        <!-- Pesan Alert/Error Django dari Backend (Tetap Terjaga) -->
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm small rounded-3 mb-4"
+                            role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+
+                        <form method="POST">
+                            {% csrf_token %}
+
+                            <!-- Input Username -->
+                            <div class="mb-4">
+                                <label for="id_username"
+                                    class="form-label small fw-bold text-secondary text-uppercase mb-1"
+                                    style="letter-spacing: 0.5px; font-size: 0.75rem;">Username</label>
+                                <div class="input-group shadow-sm rounded-3 overflow-hidden input-group-custom">
+                                    <span class="input-group-text bg-light border-end-0 text-muted px-3"><i
+                                            class="bi bi-person-fill"></i></span>
+                                    <input type="text" name="username" autofocus maxlength="150" required
+                                        id="id_username" class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5"
+                                        placeholder="Masukkan username">
+                                </div>
+                            </div>
+
+                            <!-- Input Password -->
+                            <div class="mb-4">
+                                <label for="id_password"
+                                    class="form-label small fw-bold text-secondary text-uppercase mb-1"
+                                    style="letter-spacing: 0.5px; font-size: 0.75rem;">Password</label>
+                                <div class="input-group shadow-sm rounded-3 overflow-hidden input-group-custom">
+                                    <span class="input-group-text bg-light border-end-0 text-muted px-3"><i
+                                            class="bi bi-lock-fill"></i></span>
+                                    <input type="password" name="password" required id="id_password"
+                                        class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5"
+                                        placeholder="Masukkan password">
+                                </div>
+                            </div>
+
+                            <!-- Tombol Masuk Fleksibel Premium (Aksen Emas Kontras) -->
+                            <button type="submit"
+                                class="btn btn-smartcity-custom w-100 py-2.5 rounded-3 fw-bold shadow-sm mt-2 d-flex align-items-center justify-content-center gap-1"
+                                style="font-size: 1rem;">
+                                Masuk <i class="bi bi-box-arrow-in-right"></i>
+                            </button>
+                        </form>
+
+                        <hr class="text-muted opacity-25 my-4">
+
+                        <!-- Link Registrasi -->
+                        <p class="text-center mb-0 small text-muted">
+                            Belum punya akun? <a href="{% url 'register' %}"
+                                class="fw-bold text-decoration-none hover-underline" style="color: #2d5a27;">Daftar
+                                sebagai Citizen</a>
+                        </p>
+                    </div>
+                </div>
+
             </div>
-            {% endfor %}
-            {% endif %}
-
-            <form method="POST">
-                {% csrf_token %}
-
-                <div class="mb-4">
-                    <label for="id_username" class="form-label small fw-bold text-secondary text-uppercase mb-1"
-                        style="letter-spacing: 0.5px; font-size: 0.75rem;">Username</label>
-                    <div class="input-group shadow-sm rounded-3 overflow-hidden">
-                        <span class="input-group-text bg-light border-end-0 text-muted px-3"><i
-                                class="bi bi-person-fill"></i></span>
-                        <input type="text" name="username" autofocus maxlength="150" required id="id_username"
-                            class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5"
-                            placeholder="Masukkan username">
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <label for="id_password" class="form-label small fw-bold text-secondary text-uppercase mb-1"
-                        style="letter-spacing: 0.5px; font-size: 0.75rem;">Password</label>
-                    <div class="input-group shadow-sm rounded-3 overflow-hidden">
-                        <span class="input-group-text bg-light border-end-0 text-muted px-3"><i
-                                class="bi bi-lock-fill"></i></span>
-                        <input type="password" name="password" required id="id_password"
-                            class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5"
-                            placeholder="Masukkan password">
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-smartcity w-100 py-2.5 rounded-3 fw-bold shadow-sm mt-2"
-                    style="font-size: 1rem;">
-                    Masuk <i class="bi bi-box-arrow-in-right ms-1"></i>
-                </button>
-            </form>
-
-            <hr class="text-muted opacity-25 my-4">
-
-            <p class="text-center mb-0 small text-muted">
-                Belum punya akun? <a href="{% url 'register' %}" class="fw-bold text-decoration-none"
-                    style="color: #2d5a27;">Daftar sebagai Citizen</a>
-            </p>
         </div>
     </div>
 </div>
+
+<!-- Gaya CSS Kustom Pengubah Latar Belakang (Mengisi Area yang Kamu Coret) -->
+<style>
+    .font-heading {
+        font-family: 'Inter', -apple-system, sans-serif !important;
+    }
+
+    /* 1. Perubahan Background Utama Terbuka Luas (Mesh Gradient) */
+    .auth-bg-wrapper {
+        background: radial-gradient(at 0% 0%, rgba(220, 252, 231, 0.7) 0px, transparent 50%),
+            radial-gradient(at 100% 100%, rgba(254, 243, 199, 0.6) 0px, transparent 50%),
+            #f8fafc;
+        z-index: 1;
+    }
+
+    /* 2. Bulatan Cahaya Glow (Modern Blurred Orbs) di Area Kosong Sekitar Kartu */
+    .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.65;
+    }
+
+    .orb-green {
+        width: 320px;
+        height: 320px;
+        background-color: rgba(45, 90, 39, 0.14);
+        top: -40px;
+        left: -40px;
+    }
+
+    .orb-gold {
+        width: 380px;
+        height: 380px;
+        background-color: rgba(255, 202, 40, 0.1);
+        bottom: -80px;
+        right: -40px;
+    }
+
+    .orb-subtle-mesh {
+        width: 280px;
+        height: 280px;
+        background-color: rgba(14, 165, 233, 0.04);
+        top: 35%;
+        left: 25%;
+    }
+
+    .z-index-2 {
+        z-index: 2;
+    }
+
+    /* 3. Desain Komponen Custom Card & Form */
+    .card-auth-custom {
+        border: 1px solid rgba(0, 0, 0, 0.04) !important;
+        backdrop-filter: blur(8px);
+    }
+
+    .icon-shield-wrapper {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        background-color: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+    }
+
+    /* Efek Saat Input Diklik (Focus State Style) */
+    .input-group-custom .form-control:focus {
+        background-color: #ffffff !important;
+        box-shadow: none;
+        border-color: #2d5a27;
+    }
+
+    .input-group-custom .form-control:focus+.input-group-text,
+    .input-group-custom:focus-within .input-group-text {
+        background-color: #ffffff !important;
+        border-color: #2d5a27;
+    }
+
+    /* Tombol Custom Modern dengan Efek Transisi Hover */
+    .btn-smartcity-custom {
+        background-color: #ffca28 !important;
+        /* Warna Emas Identitas Pasir Sakti */
+        color: #1e3d1a !important;
+        border: none;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btn-smartcity-custom:hover {
+        background-color: #ffb300 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25) !important;
+    }
+
+    .hover-underline:hover {
+        text-decoration: underline !important;
+    }
+
+    /* Animasi Masuk Ringan saat Halaman Dimuat */
+    .animate-fade-up {
+        animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
 {% endblock %}
