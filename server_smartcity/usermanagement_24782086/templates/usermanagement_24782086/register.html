@@ -3,85 +3,250 @@
 {% block title %}Registrasi Citizen - Smart City{% endblock %}
 
 {% block content %}
-<div class="d-flex align-items-center justify-content-center my-4"
-    style="min-height: 80vh; background: radial-gradient(circle at bottom left, rgba(45, 90, 39, 0.08), transparent 50%);">
-    <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white w-100" style="max-width: 520px;">
+<div class="container py-4 animate-fade-in">
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden main-auth-card">
+        <div class="row g-0">
 
-        <div class="bg-smartcity py-4 text-center text-white position-relative"
-            style="background-color: #2d5a27 !important;">
-            <i class="bi bi-person-plus-fill text-warning mb-2" style="font-size: 2.5rem;"></i>
-            <h4 class="mb-1 fw-bold" style="letter-spacing: 0.5px; font-family: sans-serif;">DAFTAR AKUN CITIZEN</h4>
-            <p class="text-white-50 small mb-0">Lengkapi formulir untuk pendaftaran akun warga baru</p>
-        </div>
+            <div
+                class="col-lg-6 d-none d-lg-flex flex-column justify-content-between p-5 text-white position-relative left-branding-panel">
+                <div class="absolute-decor-line-1"></div>
+                <div class="absolute-decor-line-2"></div>
 
-        <div class="card-body p-4 p-md-5">
-            <form method="POST">
-                {% csrf_token %}
-
-                {% if form.non_field_errors %}
-                <div class="alert alert-danger py-2 px-3 small rounded-3 mb-4 shadow-sm">
-                    {% for error in form.non_field_errors %}
-                    <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ error }}
-                    {% endfor %}
+                <div class="position-relative z-index-2">
+                    <span
+                        class="badge bg-white bg-opacity-20 text-white px-3 py-2 rounded-pill fw-semibold small text-uppercase tracking-wider">
+                        <i class="bi bi-person-plus-fill text-warning me-1"></i> Citizen Registration
+                    </span>
                 </div>
-                {% endif %}
 
-                {% for field in form %}
-                <div class="mb-3" style="margin-bottom: 1.2rem;">
-                    <label for="{{ field.id_for_label }}"
-                        class="form-label small fw-bold text-secondary text-uppercase mb-1"
-                        style="letter-spacing: 0.5px; font-size: 0.75rem;">
-                        {{ field.label }}
-                    </label>
+                <div class="position-relative z-index-2 my-auto py-4">
+                    <div class="brand-icon-box mb-4 shadow">
+                        <i class="bi bi-person-badge-fill text-warning"></i>
+                    </div>
+                    <h2 class="display-6 fw-extrabold font-heading mb-2">Bergabung dengan <span
+                            class="text-warning">Pasir Sakti</span></h2>
+                    <p class="text-white-50 leading-relaxed fs-6">
+                        Buat akun Citizen Anda untuk mulai berkontribusi dalam pembangunan desa. Laporkan kendala
+                        infrastruktur di sekitar Anda dan pantau proses perbaikannya secara transparan.
+                    </p>
+                </div>
 
-                    <div class="input-group shadow-sm rounded-3 overflow-hidden">
-                        <span class="input-group-text bg-light border-end-0 text-muted px-3">
-                            {% if 'user' in field.name %}
-                            <i class="bi bi-person-bounding-box"></i>
-                            {% elif 'email' in field.name %}
-                            <i class="bi bi-envelope-fill"></i>
-                            {% elif 'pass' in field.name %}
-                            <i class="bi bi-key-fill"></i>
-                            {% else %}
-                            <i class="bi bi-card-text"></i>
+                <div class="position-relative z-index-2 border-top border-white border-opacity-10 pt-3">
+                    <small class="text-white-50"><i class="bi bi-layers-half me-1"></i> Smart City Management System
+                        &copy; 2026</small>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6 bg-white p-4 p-md-5 d-flex flex-column justify-content-center min-h-form">
+
+                <div class="d-block d-lg-none text-center mb-4">
+                    <i class="bi bi-person-plus-fill text-success display-5 mb-2 d-block"></i>
+                    <h4 class="fw-bold text-dark font-heading mb-1">DAFTAR AKUN CITIZEN</h4>
+                    <p class="text-muted small">Lengkapi formulir untuk pendaftaran akun warga baru</p>
+                </div>
+
+                <div class="d-none d-lg-block mb-4">
+                    <h3 class="fw-bold text-dark font-heading mb-1">Pendaftaran Akun</h3>
+                    <p class="text-muted small">Lengkapi formulir di bawah ini untuk membuat akun baru</p>
+                </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger py-2 px-3 small rounded-3 mb-4 shadow-sm">
+                        {% for error in form.non_field_errors %}
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% for field in form %}
+                    <div class="mb-3" style="margin-bottom: 1.2rem;">
+                        <label for="{{ field.id_for_label }}"
+                            class="form-label small fw-bold text-secondary text-uppercase mb-1"
+                            style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                            {{ field.label }}
+                        </label>
+
+                        <div class="input-group input-group-modern shadow-sm rounded-3 overflow-hidden">
+                            <span class="input-group-text bg-light border-end-0 text-muted px-3">
+                                {% if 'user' in field.name %}
+                                <i class="bi bi-person-bounding-box"></i>
+                                {% elif 'email' in field.name %}
+                                <i class="bi bi-envelope-fill"></i>
+                                {% elif 'pass' in field.name %}
+                                <i class="bi bi-key-fill"></i>
+                                {% else %}
+                                <i class="bi bi-card-text"></i>
+                                {% endif %}
+                            </span>
+
+                            <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}"
+                                id="{{ field.id_for_label }}"
+                                class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5 {% if field.errors %}is-invalid{% endif %}"
+                                placeholder="Masukkan {{ field.label|lower }}" {% if field.value %}
+                                value="{{ field.value }}" {% endif %} {% if field.field.required %} required {% endif
+                                %}>
+
+                            {% if field.errors %}
+                            <div class="invalid-feedback px-2 small">
+                                {% for error in field.errors %}{{ error }}{% endfor %}
+                            </div>
                             {% endif %}
-                        </span>
+                        </div>
 
-                        <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}"
-                            id="{{ field.id_for_label }}"
-                            class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5 {% if field.errors %}is-invalid{% endif %}"
-                            placeholder="Masukkan {{ field.label|lower }}" {% if field.value %}
-                            value="{{ field.value }}" {% endif %} {% if field.field.required %} required {% endif %}>
-
-                        {% if field.errors %}
-                        <div class="invalid-feedback px-2 small">
-                            {% for error in field.errors %}{{ error }}{% endfor %}
+                        {% if field.help_text %}
+                        <div class="card border-0 bg-light p-3 mt-2 rounded-3 text-secondary shadow-sm"
+                            style="font-size: 0.75rem; border-left: 4px solid #f1c40f !important; line-height: 1.5;">
+                            <i class="bi bi-info-circle-fill text-warning me-1"></i> {{ field.help_text|safe }}
                         </div>
                         {% endif %}
                     </div>
+                    {% endfor %}
 
-                    {% if field.help_text %}
-                    <div class="card border-0 bg-light p-3 mt-2 rounded-3 text-secondary shadow-sm"
-                        style="font-size: 0.75rem; border-left: 4px solid #f1c40f !important; line-height: 1.5;">
-                        <i class="bi bi-info-circle-fill text-warning me-1"></i> {{ field.help_text|safe }}
-                    </div>
-                    {% endif %}
-                </div>
-                {% endfor %}
+                    <button type="submit" class="btn btn-action-submit w-100 py-2.5 rounded-3 fw-bold shadow-sm mt-4"
+                        style="font-size: 1rem;">
+                        Daftar Sekarang <i class="bi bi-check-circle-fill ms-1"></i>
+                    </button>
+                </form>
 
-                <button type="submit" class="btn btn-smartcity w-100 py-2.5 rounded-3 fw-bold shadow-sm mt-4"
-                    style="font-size: 1rem; background-color: #2d5a27 !important; color: white;">
-                    Daftar Sekarang <i class="bi bi-check-circle-fill ms-1"></i>
-                </button>
-            </form>
+                <hr class="text-muted opacity-25 my-4">
 
-            <hr class="text-muted opacity-25 my-4">
+                <p class="text-center mb-0 small text-muted">
+                    Sudah punya akun? <a href="{% url 'login' %}"
+                        class="fw-bold text-decoration-none text-success-link hover-underline">Login di sini</a>
+                </p>
+            </div>
 
-            <p class="text-center mb-0 small text-muted">
-                Sudah punya akun? <a href="{% url 'login' %}" class="fw-bold text-decoration-none"
-                    style="color: #2d5a27;">Login di sini</a>
-            </p>
         </div>
     </div>
 </div>
+
+<style>
+    .font-heading {
+        font-family: 'Inter', -apple-system, sans-serif !important;
+    }
+
+    .fw-extrabold {
+        font-weight: 800 !important;
+    }
+
+    .z-index-2 {
+        z-index: 2;
+    }
+
+    .main-auth-card {
+        background-color: #ffffff;
+        min-height: 580px;
+    }
+
+    .left-branding-panel {
+        background: linear-gradient(135deg, #2d5a27 0%, #173314 100%);
+        overflow: hidden;
+    }
+
+    .brand-icon-box {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        background-color: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+        font-size: 1.8rem;
+        backdrop-filter: blur(8px);
+    }
+
+    .absolute-decor-line-1 {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border: 2px solid rgba(255, 255, 255, 0.03);
+        border-radius: 50%;
+        top: -40px;
+        right: -40px;
+    }
+
+    .absolute-decor-line-2 {
+        position: absolute;
+        width: 350px;
+        height: 350px;
+        border: 1px dashed rgba(255, 255, 255, 0.04);
+        border-radius: 50%;
+        bottom: -100px;
+        left: -80px;
+    }
+
+    .min-h-form {
+        min-height: 520px;
+    }
+
+    .input-group-modern {
+        border: 1px solid #e2e8f0;
+        transition: all 0.2s ease;
+    }
+
+    .input-group-modern .form-control {
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .input-group-modern .input-group-text {
+        border: none !important;
+        background-color: #f8fafc !important;
+    }
+
+    .input-group-modern:focus-within {
+        border-color: #2d5a27 !important;
+        box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.12) !important;
+    }
+
+    .input-group-modern:focus-within .input-group-text {
+        background-color: #ffffff !important;
+    }
+
+    .btn-action-submit {
+        background-color: #ffca28 !important;
+        color: #173314 !important;
+        border: none;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btn-action-submit:hover {
+        background-color: #ffb300 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2) !important;
+    }
+
+    .text-success-link {
+        color: #2d5a27;
+        transition: color 0.15s ease;
+    }
+
+    .text-success-link:hover {
+        color: #173314;
+    }
+
+    .hover-underline:hover {
+        text-decoration: underline !important;
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 0.35s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
 {% endblock %}
