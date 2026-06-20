@@ -3,85 +3,300 @@
 {% block title %}Registrasi Citizen - Smart City{% endblock %}
 
 {% block content %}
-<div class="d-flex align-items-center justify-content-center my-4"
-    style="min-height: 80vh; background: radial-gradient(circle at bottom left, rgba(45, 90, 39, 0.08), transparent 50%);">
-    <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white w-100" style="max-width: 520px;">
+<div class="container py-4 animate-fade-in">
+    <!-- Kotak Utama Tunggal Split-Screen (Konsisten dengan Login) -->
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden main-auth-card">
+        <div class="row g-0">
 
-        <div class="bg-smartcity py-4 text-center text-white position-relative"
-            style="background-color: #2d5a27 !important;">
-            <i class="bi bi-person-plus-fill text-warning mb-2" style="font-size: 2.5rem;"></i>
-            <h4 class="mb-1 fw-bold" style="letter-spacing: 0.5px; font-family: sans-serif;">DAFTAR AKUN CITIZEN</h4>
-            <p class="text-white-50 small mb-0">Lengkapi formulir untuk pendaftaran akun warga baru</p>
-        </div>
+            <!-- PANEL KIRI: VISUAL BRANDING (Hanya Muncul di Layar PC/Laptop) -->
+            <div
+                class="col-lg-6 d-none d-lg-flex flex-column justify-content-between p-5 text-white position-relative left-branding-panel">
+                <!-- Ornamen Garis Estetik di Background -->
+                <div class="absolute-decor-line-1"></div>
+                <div class="absolute-decor-line-2"></div>
 
-        <div class="card-body p-4 p-md-5">
-            <form method="POST">
-                {% csrf_token %}
-
-                {% if form.non_field_errors %}
-                <div class="alert alert-danger py-2 px-3 small rounded-3 mb-4 shadow-sm">
-                    {% for error in form.non_field_errors %}
-                    <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ error }}
-                    {% endfor %}
+                <!-- Bagian Atas Panel -->
+                <div class="position-relative z-index-2">
+                    <span
+                        class="badge bg-white bg-opacity-20 text-white px-3 py-2 rounded-pill fw-semibold small text-uppercase tracking-wider">
+                        <i class="bi bi-person-plus-fill text-warning me-1"></i> Citizen Registration
+                    </span>
                 </div>
-                {% endif %}
 
-                {% for field in form %}
-                <div class="mb-3" style="margin-bottom: 1.2rem;">
-                    <label for="{{ field.id_for_label }}"
-                        class="form-label small fw-bold text-secondary text-uppercase mb-1"
-                        style="letter-spacing: 0.5px; font-size: 0.75rem;">
-                        {{ field.label }}
-                    </label>
+                <!-- Bagian Tengah Panel: Identitas Utama Pasir Sakti -->
+                <div class="position-relative z-index-2 my-auto py-4">
+                    <div class="brand-icon-box mb-4 shadow">
+                        <i class="bi bi-person-badge-fill text-warning"></i>
+                    </div>
+                    <h2 class="display-6 fw-extrabold font-heading mb-2">Bergabung dengan <span
+                            class="text-warning">Pasir Sakti</span></h2>
+                    <p class="text-white-50 leading-relaxed fs-6">
+                        Buat akun Citizen Anda untuk mulai berkontribusi dalam pembangunan desa. Laporkan kendala
+                        infrastruktur di sekitar Anda dan pantau proses perbaikannya secara transparan.
+                    </p>
+                </div>
 
-                    <div class="input-group shadow-sm rounded-3 overflow-hidden">
-                        <span class="input-group-text bg-light border-end-0 text-muted px-3">
-                            {% if 'user' in field.name %}
-                            <i class="bi bi-person-bounding-box"></i>
-                            {% elif 'email' in field.name %}
-                            <i class="bi bi-envelope-fill"></i>
-                            {% elif 'pass' in field.name %}
-                            <i class="bi bi-key-fill"></i>
-                            {% else %}
-                            <i class="bi bi-card-text"></i>
-                            {% endif %}
-                        </span>
+                <!-- Bagian Bawah Panel -->
+                <div class="position-relative z-index-2 border-top border-white border-opacity-10 pt-3">
+                    <small class="text-white-50"><i class="bi bi-layers-half me-1"></i> Smart City Management System
+                        &copy; 2026</small>
+                </div>
+            </div>
 
-                        <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}"
-                            id="{{ field.id_for_label }}"
-                            class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5 {% if field.errors %}is-invalid{% endif %}"
-                            placeholder="Masukkan {{ field.label|lower }}" {% if field.value %}value="{{ field.value }}"
-                            {% endif %} {% if field.field.required %}required{% endif %}>
+            <!-- PANEL KANAN: FORM REGISTRASI DYNAMIC DJANGO -->
+            <div class="col-12 col-lg-6 bg-white p-4 p-md-5 d-flex flex-column justify-content-center min-h-form">
 
+                <!-- Header Form untuk Mobile (HP) -->
+                <div class="d-block d-lg-none text-center mb-4">
+                    <i class="bi bi-person-plus-fill text-success display-5 mb-2 d-block"></i>
+                    <h4 class="fw-bold text-dark font-heading mb-1">DAFTAR AKUN CITIZEN</h4>
+                    <p class="text-muted small">Lengkapi formulir untuk pendaftaran akun warga baru</p>
+                </div>
+
+                <!-- Judul Form untuk Desktop -->
+                <div class="d-none d-lg-block mb-4">
+                    <h3 class="fw-bold text-dark font-heading mb-1">Pendaftaran Akun</h3>
+                    <p class="text-muted small">Lengkapi formulir di bawah ini untuk membuat akun baru</p>
+                </div>
+
+                <!-- Form Registrasi -->
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <!-- Global Non-Field Errors Handlers (Asli dari Kodinganmu) -->
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger py-2 px-3 small rounded-3 mb-4 shadow-sm animate-fade-in">
+                        {% for error in form.non_field_errors %}
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Loop Dynamic Form Fields Django (Asli dari Kodinganmu) -->
+                    {% for field in form %}
+                    <div class="mb-3.5">
+                        <label for="{{ field.id_for_label }}"
+                            class="form-label small fw-bold text-secondary text-uppercase tracking-wide mb-1">
+                            {{ field.label }}
+                        </label>
+
+                        <!-- Wrapper Input Group Modern -->
+                        <div class="input-group input-group-modern {% if field.errors %}border-danger{% endif %}">
+                            <!-- Kondisional Ikon Otomatis (Asli dari Kodinganmu) -->
+                            <span class="input-group-text bg-light border-end-0 text-muted px-3">
+                                {% if 'user' in field.name %}
+                                <i class="bi bi-person-bounding-box"></i>
+                                {% elif 'email' in field.name %}
+                                <i class="bi bi-envelope-fill"></i>
+                                {% elif 'pass' in field.name %}
+                                <i class="bi bi-key-fill"></i>
+                                {% collapse_input %}
+                                {% else %}
+                                <i class="bi bi-card-text"></i>
+                                {% endif %}
+                            </span>
+
+                            <!-- Tag Input Utama Django (Asli dari Kodinganmu) -->
+                            <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}"
+                                id="{{ field.id_for_label }}"
+                                class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5 {% if field.errors %}is-invalid{% endif %}"
+                                placeholder="Masukkan {{ field.label|lower }}" {% if field.value
+                                %}value="{{ field.value }}" {% endif %} {% if field.field.required %}required{% endif
+                                %}>
+                        </div>
+
+                        <!-- Feedback Error Per Field (Asli dari Kodinganmu) -->
                         {% if field.errors %}
-                        <div class="invalid-feedback px-2 small">
-                            {% for error in field.errors %}{{ error }}{% endfor %}
+                        <div class="text-danger px-1 mt-1 small d-block animate-fade-in" style="font-size: 0.8rem;">
+                            {% for error in field.errors %}
+                            <i class="bi bi-exclamation-circle me-1"></i>{{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <!-- Info/Help Text Bawaan Django Validation (Asli dari Kodinganmu) -->
+                        {% if field.help_text %}
+                        <div class="card border-0 bg-light p-3 mt-2 rounded-3 text-secondary shadow-sm"
+                            style="font-size: 0.75rem; border-left: 4px solid #f1c40f !important; line-height: 1.5;">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-info-circle-fill text-warning me-2 mt-0.5"></i>
+                                <span>{{ field.help_text|safe }}</span>
+                            </div>
                         </div>
                         {% endif %}
                     </div>
+                    {% endfor %}
 
-                    {% if field.help_text %}
-                    <div class="card border-0 bg-light p-3 mt-2 rounded-3 text-secondary shadow-sm"
-                        style="font-size: 0.75rem; border-left: 4px solid #f1c40f !important; line-height: 1.5;">
-                        <i class="bi bi-info-circle-fill text-warning me-1"></i> {{ field.help_text|safe }}
-                    </div>
-                    {% endif %}
-                </div>
-                {% endfor %}
+                    <!-- Tombol Submit Register Solid Emas Kontras -->
+                    <button type="submit"
+                        class="btn btn-action-submit w-100 py-2.5 rounded-3 fw-bold shadow-sm mt-4 d-flex align-items-center justify-content-center gap-2">
+                        Daftar Sekarang <i class="bi bi-check-circle-fill"></i>
+                    </button>
+                </form>
 
-                <button type="submit" class="btn btn-smartcity w-100 py-2.5 rounded-3 fw-bold shadow-sm mt-4"
-                    style="font-size: 1rem;">
-                    Daftar Sekarang <i class="bi bi-check-circle-fill ms-1"></i>
-                </button>
-            </form>
+                <hr class="text-muted opacity-25 my-4">
 
-            <hr class="text-muted opacity-25 my-4">
+                <!-- Link Kembali ke Login -->
+                <p class="text-center mb-0 small text-muted">
+                    Sudah punya akun? <a href="{% url 'login' %}"
+                        class="fw-bold text-decoration-none text-success-link hover-underline">Login di sini</a>
+                </p>
+            </div>
 
-            <p class="text-center mb-0 small text-muted">
-                Sudah punya akun? <a href="{% url 'login' %}" class="fw-bold text-decoration-none"
-                    style="color: #2d5a27;">Login di sini</a>
-            </p>
         </div>
     </div>
 </div>
+
+<!-- Premium SaaS Layout CSS Styling (Sama & Konsisten dengan Login) -->
+<style>
+    .font-heading {
+        font-family: 'Inter', -apple-system, sans-serif !important;
+    }
+
+    .fw-extrabold {
+        font-weight: 800 !important;
+    }
+
+    .z-index-2 {
+        z-index: 2;
+    }
+
+    .mb-3\.5 {
+        margin-bottom: 1.1rem;
+    }
+
+    /* Desain Pembungkus Kotak Utama */
+    .main-auth-card {
+        background-color: #ffffff;
+        min-height: 580px;
+    }
+
+    /* Panel Kiri (Visual Hijau Emerald) */
+    .left-branding-panel {
+        background: linear-gradient(135deg, #2d5a27 0%, #173314 100%);
+        overflow: hidden;
+    }
+
+    /* Ikon Box Kiri */
+    .brand-icon-box {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        background-color: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+        font-size: 1.8rem;
+        backdrop-filter: blur(8px);
+    }
+
+    /* Ornamen Grafik Latar Belakang Panel Kiri */
+    .absolute-decor-line-1 {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border: 2px solid rgba(255, 255, 255, 0.03);
+        border-radius: 50%;
+        top: -40px;
+        right: -40px;
+    }
+
+    .absolute-decor-line-2 {
+        position: absolute;
+        width: 350px;
+        height: 350px;
+        border: 1px dashed rgba(255, 255, 255, 0.04);
+        border-radius: 50%;
+        bottom: -100px;
+        left: -80px;
+    }
+
+    /* Tinggi minimum form */
+    .min-h-form {
+        min-height: 520px;
+    }
+
+    /* Input Fields Modern Style */
+    .input-group-modern {
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        transition: all 0.2s ease;
+    }
+
+    .input-group-modern .form-control {
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .input-group-modern .input-group-text {
+        border: none !important;
+        background-color: #f8fafc !important;
+    }
+
+    /* Efek fokus input diklik */
+    .input-group-modern:focus-within {
+        border-color: #2d5a27 !important;
+        box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.12) !important;
+    }
+
+    .input-group-modern:focus-within .input-group-text {
+        background-color: #ffffff !important;
+    }
+
+    /* Override border jika field error */
+    .input-group-modern.border-danger {
+        border-color: #dc3545 !important;
+    }
+
+    .input-group-modern.border-danger:focus-within {
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15) !important;
+    }
+
+    /* Tombol Submit Emas Solid Pasir Sakti */
+    .btn-action-submit {
+        background-color: #ffca28 !important;
+        color: #173314 !important;
+        border: none;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btn-action-submit:hover {
+        background-color: #ffb300 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2) !important;
+    }
+
+    /* Link text */
+    .text-success-link {
+        color: #2d5a27;
+        transition: color 0.15s ease;
+    }
+
+    .text-success-link:hover {
+        color: #173314;
+    }
+
+    .hover-underline:hover {
+        text-decoration: underline !important;
+    }
+
+    /* Animasi Lembut Saat Load Halaman */
+    .animate-fade-in {
+        animation: fadeIn 0.35s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
 {% endblock %}
