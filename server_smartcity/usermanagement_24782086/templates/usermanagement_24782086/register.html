@@ -4,9 +4,11 @@
 
 {% block content %}
 <div class="container py-4 animate-fade-in">
+    <!-- Kotak Utama Tunggal Split-Screen Modern -->
     <div class="card border-0 shadow-lg rounded-4 overflow-hidden main-auth-card">
         <div class="row g-0">
 
+            <!-- PANEL KIRI: VISUAL BRANDING -->
             <div
                 class="col-lg-6 d-none d-lg-flex flex-column justify-content-between p-5 text-white position-relative left-branding-panel">
                 <div class="absolute-decor-line-1"></div>
@@ -37,6 +39,7 @@
                 </div>
             </div>
 
+            <!-- PANEL KANAN: FORM REGISTRASI DYNAMIC DJANGO -->
             <div class="col-12 col-lg-6 bg-white p-4 p-md-5 d-flex flex-column justify-content-center min-h-form">
 
                 <div class="d-block d-lg-none text-center mb-4">
@@ -82,12 +85,34 @@
                                 {% endif %}
                             </span>
 
+                            <!-- STRUKTUR INPUT 100% BEBAS DARI TAG IF INTERNAL (ANTI-MUTILASI FORMATTER) -->
+                            {% if field.field.required %}
+                            {% if field.errors %}
                             <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}"
                                 id="{{ field.id_for_label }}"
-                                class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5 {% if field.errors %}is-invalid{% endif %}"
-                                placeholder="Masukkan {{ field.label|lower }}" {% if field.value %}
-                                value="{{ field.value }}" {% endif %} {% if field.field.required %} required {% endif
-                                %}>
+                                class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5 is-invalid"
+                                placeholder="Masukkan {{ field.label|lower }}" value="{{ field.value|default:'' }}"
+                                required>
+                            {% else %}
+                            <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}"
+                                id="{{ field.id_for_label }}"
+                                class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5"
+                                placeholder="Masukkan {{ field.label|lower }}" value="{{ field.value|default:'' }}"
+                                required>
+                            {% endif %}
+                            {% else %}
+                            {% if field.errors %}
+                            <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}"
+                                id="{{ field.id_for_label }}"
+                                class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5 is-invalid"
+                                placeholder="Masukkan {{ field.label|lower }}" value="{{ field.value|default:'' }}">
+                            {% else %}
+                            <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}"
+                                id="{{ field.id_for_label }}"
+                                class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5"
+                                placeholder="Masukkan {{ field.label|lower }}" value="{{ field.value|default:'' }}">
+                            {% endif %}
+                            {% endif %}
 
                             {% if field.errors %}
                             <div class="invalid-feedback px-2 small">
