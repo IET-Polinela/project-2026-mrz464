@@ -4,18 +4,14 @@
 
 {% block content %}
 <div class="container py-4 animate-fade-in">
-    <!-- Kotak Utama Tunggal Split-Screen (Konsisten dengan Login) -->
     <div class="card border-0 shadow-lg rounded-4 overflow-hidden main-auth-card">
         <div class="row g-0">
 
-            <!-- PANEL KIRI: VISUAL BRANDING (Hanya Muncul di Layar PC/Laptop) -->
             <div
                 class="col-lg-6 d-none d-lg-flex flex-column justify-content-between p-5 text-white position-relative left-branding-panel">
-                <!-- Ornamen Garis Estetik di Background -->
                 <div class="absolute-decor-line-1"></div>
                 <div class="absolute-decor-line-2"></div>
 
-                <!-- Bagian Atas Panel -->
                 <div class="position-relative z-index-2">
                     <span
                         class="badge bg-white bg-opacity-20 text-white px-3 py-2 rounded-pill fw-semibold small text-uppercase tracking-wider">
@@ -23,7 +19,6 @@
                     </span>
                 </div>
 
-                <!-- Bagian Tengah Panel: Identitas Utama Pasir Sakti -->
                 <div class="position-relative z-index-2 my-auto py-4">
                     <div class="brand-icon-box mb-4 shadow">
                         <i class="bi bi-person-badge-fill text-warning"></i>
@@ -36,34 +31,28 @@
                     </p>
                 </div>
 
-                <!-- Bagian Bawah Panel -->
                 <div class="position-relative z-index-2 border-top border-white border-opacity-10 pt-3">
                     <small class="text-white-50"><i class="bi bi-layers-half me-1"></i> Smart City Management System
                         &copy; 2026</small>
                 </div>
             </div>
 
-            <!-- PANEL KANAN: FORM REGISTRASI DYNAMIC DJANGO -->
             <div class="col-12 col-lg-6 bg-white p-4 p-md-5 d-flex flex-column justify-content-center min-h-form">
 
-                <!-- Header Form untuk Mobile (HP) -->
                 <div class="d-block d-lg-none text-center mb-4">
                     <i class="bi bi-person-plus-fill text-success display-5 mb-2 d-block"></i>
                     <h4 class="fw-bold text-dark font-heading mb-1">DAFTAR AKUN CITIZEN</h4>
                     <p class="text-muted small">Lengkapi formulir untuk pendaftaran akun warga baru</p>
                 </div>
 
-                <!-- Judul Form untuk Desktop -->
                 <div class="d-none d-lg-block mb-4">
                     <h3 class="fw-bold text-dark font-heading mb-1">Pendaftaran Akun</h3>
                     <p class="text-muted small">Lengkapi formulir di bawah ini untuk membuat akun baru</p>
                 </div>
 
-                <!-- Form Registrasi -->
                 <form method="POST">
                     {% csrf_token %}
 
-                    <!-- Global Non-Field Errors Handlers (Asli dari Kodinganmu) -->
                     {% if form.non_field_errors %}
                     <div class="alert alert-danger py-2 px-3 small rounded-3 mb-4 shadow-sm animate-fade-in">
                         {% for error in form.non_field_errors %}
@@ -72,7 +61,6 @@
                     </div>
                     {% endif %}
 
-                    <!-- Loop Dynamic Form Fields Django (Asli dari Kodinganmu) -->
                     {% for field in form %}
                     <div class="mb-3.5">
                         <label for="{{ field.id_for_label }}"
@@ -80,9 +68,7 @@
                             {{ field.label }}
                         </label>
 
-                        <!-- Wrapper Input Group Modern -->
                         <div class="input-group input-group-modern {% if field.errors %}border-danger{% endif %}">
-                            <!-- Kondisional Ikon Otomatis (Asli dari Kodinganmu) -->
                             <span class="input-group-text bg-light border-end-0 text-muted px-3">
                                 {% if 'user' in field.name %}
                                 <i class="bi bi-person-bounding-box"></i>
@@ -90,13 +76,11 @@
                                 <i class="bi bi-envelope-fill"></i>
                                 {% elif 'pass' in field.name %}
                                 <i class="bi bi-key-fill"></i>
-                                {% collapse_input %}
                                 {% else %}
                                 <i class="bi bi-card-text"></i>
                                 {% endif %}
                             </span>
 
-                            <!-- Tag Input Utama Django (Asli dari Kodinganmu) -->
                             <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}"
                                 id="{{ field.id_for_label }}"
                                 class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5 {% if field.errors %}is-invalid{% endif %}"
@@ -105,7 +89,6 @@
                                 %}>
                         </div>
 
-                        <!-- Feedback Error Per Field (Asli dari Kodinganmu) -->
                         {% if field.errors %}
                         <div class="text-danger px-1 mt-1 small d-block animate-fade-in" style="font-size: 0.8rem;">
                             {% for error in field.errors %}
@@ -114,7 +97,6 @@
                         </div>
                         {% endif %}
 
-                        <!-- Info/Help Text Bawaan Django Validation (Asli dari Kodinganmu) -->
                         {% if field.help_text %}
                         <div class="card border-0 bg-light p-3 mt-2 rounded-3 text-secondary shadow-sm"
                             style="font-size: 0.75rem; border-left: 4px solid #f1c40f !important; line-height: 1.5;">
@@ -127,7 +109,6 @@
                     </div>
                     {% endfor %}
 
-                    <!-- Tombol Submit Register Solid Emas Kontras -->
                     <button type="submit"
                         class="btn btn-action-submit w-100 py-2.5 rounded-3 fw-bold shadow-sm mt-4 d-flex align-items-center justify-content-center gap-2">
                         Daftar Sekarang <i class="bi bi-check-circle-fill"></i>
@@ -136,7 +117,6 @@
 
                 <hr class="text-muted opacity-25 my-4">
 
-                <!-- Link Kembali ke Login -->
                 <p class="text-center mb-0 small text-muted">
                     Sudah punya akun? <a href="{% url 'login' %}"
                         class="fw-bold text-decoration-none text-success-link hover-underline">Login di sini</a>
@@ -147,7 +127,6 @@
     </div>
 </div>
 
-<!-- Premium SaaS Layout CSS Styling (Sama & Konsisten dengan Login) -->
 <style>
     .font-heading {
         font-family: 'Inter', -apple-system, sans-serif !important;
