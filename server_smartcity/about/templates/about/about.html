@@ -1,47 +1,74 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Tentang - Pasir Sakti Smart City{% endblock %}
 
 {% block content %}
-<!-- Utama Container dengan Efek Card Lembut -->
 <div class="card border-0 shadow-sm rounded-4 overflow-hidden my-4 bg-white">
 
-    <!-- 1. HERO SECTION PREMIUM -->
     <div class="position-relative text-center p-5 bg-hero-gradient border-bottom border-light">
         <div class="py-3">
+            <div class="mb-3 animate-fade-in">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Lambang_Kabupaten_Lampung_Timur.png"
+                    alt="Logo Lampung Timur" style="height: 90px; width: auto; object-fit: contain;"
+                    class="drop-shadow-custom">
+            </div>
             <span
-                class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold uppercase tracking-wider small mb-3">Profil
-                Platform</span>
-            <h1 class="display-5 text-smartcity fw-extrabold mb-2 font-heading">Pasir Sakti Digital</h1>
-            <h4 class="text-success fw-bold font-heading mb-3">Smart Report System</h4>
-            <p class="lead text-secondary mx-auto fs-6 style-subtitle" style="max-width: 650px;">
-                Mewujudkan Transparansi, Akuntabilitas, dan Percepatan Pembangunan Desa Menuju Tata Kelola Digital
-                Cerdas.
-            </p>
+                class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold text-uppercase tracking-wider small mb-3">Portal
+                Informasi Resmi</span>
+            <h1 class="display-5 text-smartcity fw-extrabold mb-1 font-heading">Pasir Sakti Digital</h1>
+            <h5 class="text-success fw-bold font-heading mb-0">Smart Report & Regional Governance</h5>
         </div>
     </div>
 
-    <!-- 2. KONTEN DESKRIPSI UTAMA -->
     <div class="card-body p-4 p-md-5">
-        <div class="row justify-content-center mb-5">
-            <div class="col-lg-10 text-center">
-                <p class="text-dark fs-6 lh-lg text-secondary-custom">
-                    <strong>Pasir Sakti Digital</strong> adalah platform modern berbasis web yang dirancang khusus
-                    sebagai jembatan komunikasi interaktif antara warga <strong>Desa Pasir Sakti, Kabupaten Lampung
-                        Timur</strong> dengan aparatur desa. Sistem ini mendigitalisasi proses pelaporan berbagai
-                    permasalahan infrastruktur, sosial, maupun layanan publik guna menghadirkan pelayanan publik yang
-                    responsif, transparan, dan terukur.
+        <div class="row g-5 align-items-center mb-5">
+            <div class="col-lg-6">
+                <h4 class="text-dark fw-bold mb-3 position-relative section-title-custom ps-3">Selayang Pandang</h4>
+                <p class="text-secondary lh-lg mb-4 text-justify fs-6" style="color: #475569 !important;">
+                    <strong>Pasir Sakti Digital</strong> merupakan transformasi sistem pelayanan publik berbasis web
+                    yang dirancang khusus untuk mengakomodasi kebutuhan masyarakat di <strong>Kecamatan Pasir Sakti,
+                        Kabupaten Lampung Timur</strong>.
                 </p>
+                <p class="text-secondary lh-lg mb-4 text-justify fs-6" style="color: #475569 !important;">
+                    Platform ini bertindak sebagai infrastruktur digital cerdas penunjang transparansi yang
+                    menghubungkan warga langsung dengan jajaran aparatur pemerintahan desa. Melalui digitalisasi
+                    birokrasi ini, setiap aduan infastruktur dan pelayanan publik dapat dimonitor secara berkala guna
+                    melahirkan penanganan yang responsif dan akurat.
+                </p>
+
+                <div class="d-flex gap-3 mt-4">
+                    <div class="bg-light p-3 rounded-3 border border-light-subtle flex-fill text-center">
+                        <small class="text-muted d-block mb-1">Kabupaten</small>
+                        <span class="fw-bold text-dark">Lampung Timur</span>
+                    </div>
+                    <div class="bg-light p-3 rounded-3 border border-light-subtle flex-fill text-center">
+                        <small class="text-muted d-block mb-1">Kecamatan</small>
+                        <span class="fw-bold text-dark">Pasir Sakti</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden p-2 bg-light border border-light-subtle">
+                    <div class="position-relative rounded-3 overflow-hidden" style="height: 350px;">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63554.76797171435!2d105.713384!3d-5.402047!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e411bbf5326ab1d%3A0x4037567cf14e7a0!2sPasir%20Sakti%2C%20Kabupaten%20Lampung%20Timur%2C%20Lampung!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid"
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    <div class="card-body p-2 text-center bg-light">
+                        <small class="text-muted"><i class="bi bi-map-fill text-success me-1"></i> Peta Wilayah
+                            Geografis Kecamatan Pasir Sakti, Lampung Timur</small>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- 3. SEKTOR FITUR UTAMA (GRID CARD SAAS VIEW) -->
         <div class="mb-5">
-            <h4 class="text-dark fw-bold mb-4 position-relative section-title-custom ps-3">
-                Fitur Unggulan Sistem
-            </h4>
+            <h4 class="text-dark fw-bold mb-4 position-relative section-title-custom ps-3">Fitur Unggulan Sistem</h4>
             <div class="row g-4">
-                <!-- Fitur 1 -->
                 <div class="col-md-6">
                     <div class="card border-0 h-100 p-4 bg-card-feature shadow-sm rounded-3 transition-hover">
                         <div class="d-flex align-items-start gap-3">
@@ -51,15 +78,14 @@
                             <div>
                                 <h5 class="text-dark fw-bold mb-2">Pelaporan Real-Time</h5>
                                 <p class="text-muted small mb-0 lh-relaxed">
-                                    Masyarakat dapat mengirimkan laporan aduan masalah infrastruktur atau fasilitas
-                                    publik langsung dari lokasi kejadian lengkap dengan kategori yang presisi serta
-                                    deskripsi yang detail.
+                                    Masyarakat dapat mengirimkan laporan aduan masalah infrastruktur langsung dari
+                                    lokasi kejadian lengkap dengan pemetaan kategori presisi serta deskripsi yang
+                                    komprehensif.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Fitur 2 -->
                 <div class="col-md-6">
                     <div class="card border-0 h-100 p-4 bg-card-feature shadow-sm rounded-3 transition-hover">
                         <div class="d-flex align-items-start gap-3">
@@ -69,9 +95,9 @@
                             <div>
                                 <h5 class="text-dark fw-bold mb-2">Monitoring Workflow</h5>
                                 <p class="text-muted small mb-0 lh-relaxed">
-                                    Menghadirkan transparansi penuh bagi pelapor untuk memantau status perkembangan
-                                    aduan secara langsung, mulai dari tahapan status <em>Reported, Verified, In
-                                        Progress</em>, hingga selesai ditangani ditahap <em>Resolved</em>.
+                                    Menghadirkan transparansi penuh bagi pelapor untuk memantau status penanganan aduan
+                                    secara langsung, mulai dari tahapan status <em>Reported, Verified, In Progress</em>,
+                                    hingga selesai di <em>Resolved</em>.
                                 </p>
                             </div>
                         </div>
@@ -80,56 +106,49 @@
             </div>
         </div>
 
-        <!-- 4. ROMBAK TOTAL: TIMELINE ALUR WORKFLOW MODERN -->
         <div>
-            <h4 class="text-dark fw-bold mb-4 position-relative section-title-custom ps-3">
-                Alur Penanganan Masalah (Workflow)
-            </h4>
-
+            <h4 class="text-dark fw-bold mb-4 position-relative section-title-custom ps-3">Alur Penanganan Masalah
+                (Workflow)</h4>
             <div class="bg-light-subtle rounded-4 p-4 border border-light-subtle shadow-inner">
                 <div class="row g-4 justify-content-center">
-                    <!-- Step 1 -->
                     <div class="col-sm-6 col-lg-3">
                         <div class="text-center px-2">
                             <div
                                 class="step-number-circle bg-secondary-subtle text-secondary fw-bold mx-auto mb-3 shadow-sm">
                                 1</div>
                             <h6 class="text-dark fw-bold mb-2">Reported</h6>
-                            <p class="text-muted small mb-0 px-2 lh-base">Laporan aduan warga berhasil masuk dan terdata
-                                ke dalam sistem basis data desa.</p>
+                            <p class="text-muted small mb-0 px-2 lh-base">Laporan aduan warga berhasil masuk dan
+                                tervalidasi ke dalam pangkalan data desa.</p>
                         </div>
                     </div>
-                    <!-- Step 2 -->
                     <div class="col-sm-6 col-lg-3">
                         <div class="text-center px-2">
                             <div
                                 class="step-number-circle bg-primary-subtle text-primary fw-bold mx-auto mb-3 shadow-sm">
                                 2</div>
                             <h6 class="text-dark fw-bold mb-2">Verified</h6>
-                            <p class="text-muted small mb-0 px-2 lh-base">Aparatur desa melakukan verifikasi data
-                                lapangan untuk memastikan validitas aduan.</p>
+                            <p class="text-muted small mb-0 px-2 lh-base">Aparatur terkait melakukan verifikasi data
+                                guna memastikan kesesuaian urgensi laporan.</p>
                         </div>
                     </div>
-                    <!-- Step 3 -->
                     <div class="col-sm-6 col-lg-3">
                         <div class="text-center px-2">
                             <div
                                 class="step-number-circle bg-warning-subtle text-warning fw-bold mx-auto mb-3 shadow-sm">
                                 3</div>
                             <h6 class="text-dark fw-bold mb-2">In Progress</h6>
-                            <p class="text-muted small mb-0 px-2 lh-base">Tim teknis terkait dikerahkan ke lokasi untuk
-                                melakukan tindakan perbaikan fasilitas.</p>
+                            <p class="text-muted small mb-0 px-2 lh-base">Regu teknis lapangan dikerahkan menuju lokasi
+                                untuk eksekusi perbaikan fasilitas publik.</p>
                         </div>
                     </div>
-                    <!-- Step 4 -->
                     <div class="col-sm-6 col-lg-3">
                         <div class="text-center px-2">
                             <div
                                 class="step-number-circle bg-success-subtle text-success fw-bold mx-auto mb-3 shadow-sm">
                                 4</div>
                             <h6 class="text-dark fw-bold mb-2">Resolved</h6>
-                            <p class="text-muted small mb-0 px-2 lh-base">Masalah tuntas diselesaikan dan masyarakat
-                                dapat menikmati kembali fasilitas publik desa.</p>
+                            <p class="text-muted small mb-0 px-2 lh-base">Kendala publik sukses ditangani sepenuhnya dan
+                                infrastruktur siap digunakan kembali.</p>
                         </div>
                     </div>
                 </div>
@@ -139,14 +158,11 @@
     </div>
 </div>
 
-<!-- Custom Premium CSS Layout Styling -->
 <style>
-    /* Gradient lembut untuk area hero */
     .bg-hero-gradient {
-        background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+        background: linear-gradient(to bottom, #f4f9f4 0%, #ffffff 100%);
     }
 
-    /* Kustomisasi font judul */
     .font-heading {
         font-family: 'Inter', -apple-system, sans-serif !important;
         letter-spacing: -0.5px;
@@ -156,17 +172,15 @@
         font-weight: 800 !important;
     }
 
-    /* Gaya penulisan teks deskripsi utama */
-    .text-secondary-custom {
-        color: #475569 !important;
-        font-size: 1.05rem !important;
+    .text-justify {
+        text-align: justify;
     }
 
-    .lh-relaxed {
-        line-height: 1.6 !important;
+    /* Efek shadow khusus untuk Lambang Daerah */
+    .drop-shadow-custom {
+        filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.12));
     }
 
-    /* Indikator vertikal dekoratif di samping judul section */
     .section-title-custom::before {
         content: '';
         position: absolute;
@@ -175,17 +189,14 @@
         bottom: 4px;
         width: 4px;
         background-color: #d97706;
-        /* Menyesuaikan aksen kuning oranye aslimu */
         border-radius: 2px;
     }
 
-    /* Kustomisasi box container fitur */
     .bg-card-feature {
         background-color: #f8fafc !important;
         border: 1px solid rgba(0, 0, 0, 0.01) !important;
     }
 
-    /* Lingkaran pembungkus ikon */
     .icon-shape-custom {
         display: inline-flex;
         align-items: center;
@@ -195,7 +206,6 @@
         flex-shrink: 0;
     }
 
-    /* Efek hover melayang dinamis pada fitur card */
     .transition-hover {
         transition: all 0.25s ease-in-out;
     }
@@ -205,10 +215,8 @@
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05) !important;
         background-color: #ffffff !important;
         border: 1px solid rgba(46, 125, 50, 0.1) !important;
-        /* border tipis hijau smartcity */
     }
 
-    /* Komponen lingkaran nomor alur workflow */
     .step-number-circle {
         display: flex;
         align-items: center;
@@ -219,13 +227,7 @@
         font-size: 1.1rem;
     }
 
-    /* Subtitle italic styling */
-    .style-subtitle {
-        font-style: italic;
-        color: #64748b !important;
-    }
-
-    /* Warna Pastel Transparan Menyesuaikan Standard Utama */
+    /* Soft Color Management Palettes */
     .bg-success-subtle {
         background-color: #dcfce7 !important;
     }
