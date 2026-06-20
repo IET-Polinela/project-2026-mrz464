@@ -85,8 +85,8 @@
                             <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}"
                                 id="{{ field.id_for_label }}"
                                 class="form-control bg-light border-start-0 ps-1 fs-6 py-2.5 {% if field.errors %}is-invalid{% endif %}"
-                                placeholder="Masukkan {{ field.label|lower }}" {% if field.value
-                                %}value="{{ field.value }}" {% endif %} {% if field.field.required %}required{% endif
+                                placeholder="Masukkan {{ field.label|lower }}" {% if field.value %}
+                                value="{{ field.value }}" {% endif %} {% if field.field.required %} required {% endif
                                 %}>
 
                             {% if field.errors %}
@@ -136,19 +136,19 @@
         z-index: 2;
     }
 
-    /* Desain Pembungkus Kotak Utama */
+
     .main-auth-card {
         background-color: #ffffff;
         min-height: 580px;
     }
 
-    /* Panel Visual Kiri */
+
     .left-branding-panel {
         background: linear-gradient(135deg, #2d5a27 0%, #173314 100%);
         overflow: hidden;
     }
 
-    /* Kotak Ikon Kiri */
+
     .brand-icon-box {
         display: inline-flex;
         align-items: center;
@@ -162,7 +162,7 @@
         backdrop-filter: blur(8px);
     }
 
-    /* Ornamen Ornamen Lingkaran Minimalis Latar Belakang */
+
     .absolute-decor-line-1 {
         position: absolute;
         width: 200px;
@@ -183,12 +183,12 @@
         left: -80px;
     }
 
-    /* Tinggi minimal form panel */
+
     .min-h-form {
         min-height: 520px;
     }
 
-    /* Penyesuaian Input Group Modern Style */
+
     .input-group-modern {
         border: 1px solid #e2e8f0;
         transition: all 0.2s ease;
@@ -204,7 +204,7 @@
         background-color: #f8fafc !important;
     }
 
-    /* Efek fokus input group diklik */
+
     .input-group-modern:focus-within {
         border-color: #2d5a27 !important;
         box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.12) !important;
@@ -214,7 +214,7 @@
         background-color: #ffffff !important;
     }
 
-    /* Tombol Aksen Emas Solid Pasir Sakti */
+
     .btn-action-submit {
         background-color: #ffca28 !important;
         color: #173314 !important;
@@ -228,7 +228,7 @@
         box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2) !important;
     }
 
-    /* Warna Teks Link */
+
     .text-success-link {
         color: #2d5a27;
         transition: color 0.15s ease;
@@ -242,7 +242,7 @@
         text-decoration: underline !important;
     }
 
-    /* Efek Animasi Transisi Lembut */
+
     .animate-fade-in {
         animation: fadeIn 0.35s ease-out forwards;
     }
