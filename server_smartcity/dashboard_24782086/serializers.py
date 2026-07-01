@@ -11,12 +11,15 @@ class ReportSerializer(serializers.ModelSerializer):
     # Penanda pemilik data berbasis Token JWT
     is_owner = serializers.SerializerMethodField()
 
+    # Field untuk nama pelapor asli (hanya untuk pemilik data)
+    reporter_name = serializers.SerializerMethodField()
+
     # Trik Lab: Mengalihkan updated_at membaca created_at karena di DB tidak ada
     updated_at = serializers.DateTimeField(source='created_at', read_only=True)
 
     class Meta:
         model = Report
-        fields = ['id', 'title', 'category', 'description', 'location', 'status', 'reporter', 'created_at', 'updated_at', 'is_owner']
+        fields = ['id', 'title', 'category', 'description', 'location', 'status', 'reporter', 'created_at', 'updated_at', 'is_owner', 'reporter_name']
 
     def get_reporter(self, obj):
         # Menjaga privasi warga di tab Feed Kota
@@ -28,6 +31,14 @@ class ReportSerializer(serializers.ModelSerializer):
             # Mengembalikan True hanya jika user yang login adalah pemilik asli di database
             return obj.reporter == request.user
         return False
+
+    def get_reporter_name(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            # Mengembalikan nama asli hanya jika user yang login adalah pemilik asli di database
+            if obj.reporter == request.user:
+                return obj.reporter.username
+        return "Warga Anonim"
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)

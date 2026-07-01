@@ -21,16 +21,30 @@ def home_view(request):
 # ====================================================================
 # VIEW PUBLIK (Biasa diakses via Web Multi-Page Biasa)
 # ====================================================================
-class ReportListView(ListView):
+class ReportListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Report
     template_name = 'main_app/report_list.html' 
     context_object_name = 'reports'
     ordering = ['-id']  # Mengurutkan dari yang terbaru
 
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_admin
 
-class ReportDetailView(DetailView):
+    def handle_no_permission(self):
+        messages.error(self.request, "Akses Ditolak! Halaman ini hanya untuk Admin.")
+        return redirect('home')
+
+
+class ReportDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Report
     template_name = 'main_app/report_detail.html'
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_admin
+
+    def handle_no_permission(self):
+        messages.error(self.request, "Akses Ditolak! Halaman ini hanya untuk Admin.")
+        return redirect('home')
 
 
 # ====================================================================

@@ -137,9 +137,14 @@ function updateGlobalNavbar(hash) {
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4 py-3" style="background-color: #0d6efd !important;">
                 <div class="container">
                     <a class="navbar-brand fw-bold fs-4 text-white" href="#dashboard">Smart City Portal</a>
-                    <div class="d-flex align-items-center gap-3 ms-auto text-white">
-                        <span class="fw-semibold"><i class="bi bi-person-circle me-1"></i>Halo, Warga!</span>
-                        <button onclick="logout()" class="btn btn-outline-light fw-bold btn-sm px-3 rounded"><i class="bi bi-box-arrow-right me-1"></i>Keluar</button>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <div class="d-flex align-items-center gap-3 ms-auto text-white mt-3 mt-lg-0">
+                            <span class="fw-semibold"><i class="bi bi-person-circle me-1"></i>Halo, Warga!</span>
+                            <button onclick="logout()" class="btn btn-outline-light fw-bold btn-sm px-3 rounded"><i class="bi bi-box-arrow-right me-1"></i>Keluar</button>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -150,9 +155,14 @@ function updateGlobalNavbar(hash) {
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4 py-3" style="background-color: #0d6efd !important;">
                 <div class="container">
                     <a class="navbar-brand fw-bold fs-4 text-white" href="#login">Smart City Portal</a>
-                    <div class="d-flex gap-2 ms-auto">
-                        <a href="#login" class="btn ${hash === '#login' ? 'btn-light text-primary' : 'btn-primary text-white border-light'} fw-bold btn-sm px-3 rounded">Masuk</a>
-                        <a href="#register" class="btn ${hash === '#register' ? 'btn-light text-primary' : 'btn-primary text-white border-light'} fw-bold btn-sm px-3 rounded">Daftar</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <div class="d-flex gap-2 ms-auto mt-3 mt-lg-0">
+                            <a href="#login" class="btn ${hash === '#login' ? 'btn-light text-primary' : 'btn-primary text-white border-light'} fw-bold btn-sm px-3 rounded">Masuk</a>
+                            <a href="#register" class="btn ${hash === '#register' ? 'btn-light text-primary' : 'btn-primary text-white border-light'} fw-bold btn-sm px-3 rounded">Daftar</a>
+                        </div>
                     </div>
                 </div>
             </nav>

@@ -63,6 +63,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'smartcity_app.wsgi.application'
 
+import sys
+
 # Database Configuration for PostgreSQL
 DATABASES = {
     'default': {
@@ -74,6 +76,13 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+# Gunakan SQLite secara otomatis jika sedang menjalankan pengujian
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
