@@ -66,15 +66,15 @@ const routes = {
                                 <span class="badge bg-secondary rounded-pill" id="countDraft">0</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
-                                <span><i class="bi bi-send-fill me-2 text-warning"></i>Diajukan</span> 
+                                <span><i class="bi bi-send-fill me-2 text-warning"></i>REPORTED</span> 
                                 <span class="badge bg-warning text-dark rounded-pill" id="countReported">0</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
-                                <span><i class="bi bi-gear-fill me-2 text-info"></i>Diproses</span> 
+                                <span><i class="bi bi-gear-fill me-2 text-info"></i>VERIFIED</span> 
                                 <span class="badge bg-info rounded-pill" id="countProgress">0</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
-                                <span><i class="bi bi-check-circle-fill me-2 text-success"></i>Selesai</span> 
+                                <span><i class="bi bi-check-circle-fill me-2 text-success"></i>RESOLVED</span> 
                                 <span class="badge bg-success rounded-pill" id="countResolved">0</span>
                             </li>
                         </ul>
